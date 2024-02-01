@@ -16,12 +16,8 @@
     ),
     // TOC: false,
 )
-= Introduction
-#lorem(50)
-// == SubSection
-// #lorem(50)
-// Salut comment ça va ?
-
+= Introduction 
+#fi()#lorem(50)
 
 // #pagebreak()
 //
