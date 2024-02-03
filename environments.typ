@@ -1,10 +1,5 @@
 #import "@preview/showybox:2.0.1"
 
-// #import "helper.typ"
-// #import "config.typ"
-// #import "extra.typ": *
-
-#let darkMode = false
   
 #let popup(
   body, 
@@ -30,11 +25,7 @@
   }
   
   if footer != "" {
-    if darkMode {
-      footer = [#set text(rgb("#e0def4").lighten(10%)); #text(size: 10pt, weight: 600, footer)]
-    } else {
-      footer = [#set text(black); #text(size: 10pt, weight: 600, footer)]
-    }
+    footer = [#set text(black); #text(size: 10pt, weight: 600, footer)]
   }
   
   // Title Style
@@ -49,24 +40,13 @@
   )
   
   // Frame
-  let frame
-  if darkMode {
-    body = [#set text(rgb("#e0def4")); #body]
-    frame = (
-      title-color: color.darken(10%),
-      body-color: rgb("#232136").lighten(10%),
-      footer-color: color.darken(25%),
-      border-color: color.darken(30%),
-      radius: (top-left: 10pt, bottom-right: 10pt, rest: 0pt)
-    )
-  } else {
-    frame = (
+  let frame = (
       title-color: color.darken(55%),
       body-color: color.lighten(90%),
       footer-color: color.lighten(70%),
       border-color: color.darken(70%),
       radius: (top-left: 10pt, bottom-right: 10pt, rest: 0pt)
-  )}
+  )
 
   // Modifications
   let caption = [#title]
