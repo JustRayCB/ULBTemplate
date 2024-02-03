@@ -11,10 +11,9 @@
   TOC: true,
   Depth: 5,
   First_line_indent: 20pt,
+  Heading_prefix: "# ",
   body,
 ) = {
-  let headingPrefix = "# "
-  let headingOffset = 1
   // Set the document's basic properties.
   // ===========Cover page=============
   set document(author: Authors, title: Title)
@@ -123,41 +122,40 @@
   counter(page).update(1) // It has to be after. Don't ask me why
   // =========== End Header/Footer ==============
 
+  // =========== Heading Formatting ==============
   set heading(numbering: "1.1")
-  // show heading: it => {
-  //   [ #counter(heading).display() #it.body \ ]
-  // }
+  show heading: it =>{
+    let number = counter(heading).display()
+    set par(first-line-indent: 0pt)
+    [
+      #number #it.body // For some reason the prefix fix the first line indent problem
+      // #it // While the default behaviour doesn't
+      #v(2mm)
+    ]
+  }
   show heading.where(level: 1): it => {
     pagebreak(weak: true)
+    let prefix = Heading_prefix.split("#")
+    let number = counter(heading).display()
+    prefix = prefix.join(number) // The prefix allow to have a different prefix than usual
+    set par(first-line-indent: 0pt) // Typst treats heading as paragraph, while there exists some weird behaviour, 
+    // I have to set the first-line-indent to 0pt for the heading
     [
-      #set heading(numbering: "1")
       #set text(size: 22pt)
-      #set align(left)
-      #set text(hyphenate: false)
-      #set par(justify: false, linebreaks: "optimized")
       #v(3%) 
-      #it
-      #v(3%)
-      // #line(length: 100%, stroke: 1pt)
-  ]}
-
-
-
-
+      #prefix #it.body // For some reason the prefix fix the first line indent problem
+      // #it // While the default behaviour doesn't
+      #v(2%) // I prefer to have a space between the heading and the text. If you use this, you don't have to put '/' after
+    ]
+  }
+  // =========== End Heading Formatting ==============
 
 
   // Main body.
+  // The first line indent can create weird behaviour with the heading as the heading is treated as a paragraph
+  // The default behaviour does not have this problem. But if you use another show method, you have to set the first-line-indent to 0pt in the heading
   set par(justify: true, first-line-indent: First_line_indent)
 
 
   body
-}
-
-#let fi(..arguments) = {
-  // Function to set the first line indent
-    let fi = 20pt
-    if arguments.pos().len() != 0{
-        fi = arguments.pos().first()
-    }
-    h(fi)
 }

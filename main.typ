@@ -15,10 +15,18 @@
         "M. Name",
     ),
     // TOC: false,
+    First_line_indent: 20pt
 )
-= Introduction 
-#fi()#lorem(50)
+= Introduction <intro>
+Here in @intro,
+#lorem(50)
 
+#lorem(50)
+
+== Sub Section 
+#lorem(10)
+=== Sub Sub Section 
+#lorem(50)
 // #pagebreak()
 //
 // #include "test.typ"
