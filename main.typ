@@ -21,7 +21,20 @@
 Here in @intro,
 #lorem(50)
 
-#lorem(50)
+#parbreak()
+#lorem(10) Salut je me demande pourquoi est-ce que c'es comme ça ?
+#link("https://example.com")[
+  See example.com
+]
+
+#parbreak()
+
+$ 1 + 1 = 2  $ 
+
+#parbreak()
+
+#lorem(10) Salut je me demande pourquoi est-ce que c'es comme ça ?
+
 
 == Sub Section 
 #lorem(10)

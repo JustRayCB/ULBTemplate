@@ -1,6 +1,8 @@
 #import "@preview/chic-hdr:0.4.0" // Library for headers and footers
+#import "@preview/outrageous:0.1.0"
 #import "helper.typ"
 #import "config.typ"
+#import "environments.typ": proofSection, popup
 #let Template(
   Title: "Titre",
   UE: "Unité d'enseignement",
@@ -80,6 +82,18 @@
 
   set page(background: none)
 
+  show outline.entry: outrageous.show-entry.with(
+    font-weight: ("bold", auto),
+    font-style: (auto,),
+    vspace: (12pt, none),
+    font: ("Noto Sans", auto),
+    fill: (none, repeat[~~.]),
+    fill-right-pad: .4cm,
+    fill-align: true,
+    body-transform: none,
+    page-transform: none,
+  )
+
   if TOC{
     set page(numbering: "I")
     counter(page).update(1)
@@ -87,6 +101,53 @@
     pagebreak(weak: true)
   }
   // =========== End TOC ==============
+
+  let headerDepth = 1 // The depth of the numbering. 1 for 1.1, 2 for 1.1.1, etc. It will check Section, Subsection, Subsubsection, etc.
+  let kinds = ("result", "note", "showcase", "definition", "proof")
+  // Styling
+  // URLs
+
+  // TODO: References the boxes
+
+  // Attachment Resetting
+  show heading.where(): it => {
+    if it.level > headerDepth {
+      it
+    } else {
+      [#it#counter("meta:Attachments").update(0)]
+  }}
+
+
+  // Attachment Counting
+  show figure: it => {
+    if it.kind in kinds {
+      let increment = counter("meta:Attachments").step()
+      [#increment]
+    }
+    [#it]
+  }
+  show <meta:NumberHere>: it => {
+    // Get section numbers
+    let numbers = counter(heading).at(it.location())
+    while numbers.len() < headerDepth { numbers.push(0) }
+    if numbers.len() > headerDepth { 
+      numbers = numbers.slice(0, headerDepth)
+    }
+    // Format and append figure number.
+    numbers = numbering("1.", ..numbers) + str(counter("meta:Attachments").at(it.location()).first())
+    // Increment the attachments.
+    return [#it#numbers]
+  }
+  set math.equation(numbering: "(1)")
+
+   // Remove captions
+  show figure.caption: it => {
+    if it.kind in kinds { return }
+    it
+  }
+
+
+
 
   // Start page numbering for real after TOC
 
@@ -155,7 +216,90 @@
   // The first line indent can create weird behaviour with the heading as the heading is treated as a paragraph
   // The default behaviour does not have this problem. But if you use another show method, you have to set the first-line-indent to 0pt in the heading
   set par(justify: true, first-line-indent: First_line_indent)
+  show link: it => {
+    underline(text(blue, it))
+  }
 
 
   body
 }
+// Environments
+#let proof = proofSection.with(
+  supplement: "Preuve "
+)
+#let definition = popup.with(
+  type: "Définition ",
+  color: purple,
+  kind: "definition",
+)
+#let proposal = popup.with(
+  type: "Proposition ",
+  color: purple,
+  kind: "definition",
+)
+#let convention = popup.with(
+  type: "Convention ",
+  color: purple,
+  kind: "definition",
+)
+#let theorem = popup.with(
+  type: "Théorème ",
+  color: green,
+  kind: "result",
+)
+#let corollary = popup.with(
+  type: "Corrolaire ",
+  color: olive,
+  kind: "result",
+)
+#let proposition = popup.with(
+  type: "Proposition ",
+  color: blue,
+  kind: "result",
+)
+#let lemma = popup.with(
+  type: "Lemme ",
+  color: aqua,
+  kind: "result",
+)
+#let claim = popup.with(
+  type: "Affirmation ",
+  color: aqua,
+  kind: "result",
+)
+#let example = popup.with(
+  type: "Exemple ",
+  color: yellow,
+  kind: "showcase",
+)
+#let problem = popup.with(
+  type: "Problème ",
+  color: red,
+  kind: "showcase",
+)
+#let solution = popup.with(
+  type: "Solution ",
+  color: green,
+  kind: "showcase",
+)
+#let note = popup.with(
+  type: "Note ",
+  color: orange,
+  kind: "note",
+)
+#let remark = popup.with(
+  type: "Remarque ",
+  color: orange,
+  kind: "note",
+)
+#let warning = popup.with(
+  type: "Attention ",
+  color: red,
+  kind: "note",
+)
+#let exceptions = popup.with(
+  type: "Exception ",
+  color: red,
+  kind: "note",
+)
+
