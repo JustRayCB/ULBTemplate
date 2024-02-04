@@ -140,7 +140,10 @@
             let ref = link(ele.location())[#show text: strong; #title (#fig.supplement#secNumber#figNumber)]
             return ref
           }
-          let ref = link(ele.location())[#show text: strong; #fig.supplement#secNumber#figNumber]
+          let supp = fig.supplement
+          supp = supp.children.first()
+          // supp = supp.first()
+          let ref = link(ele.location())[#show text: strong; #supp #secNumber#figNumber]
           return ref // TODO: Split up finding stuff into helper functions
     }}}
     it
