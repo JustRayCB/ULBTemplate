@@ -31,14 +31,10 @@ $ 1 + 1 = 2  $
 // #proposal[Title][Content][Footer]
 // #theorem[Title][Content][Footer]
 // #example[Title][Content][Footer]
-#problem[Title][Content][Footer]
-#h(fil)#lorem(50)\
-
 #lorem(50)
+#problem[Title][Content][Footer] 
+#noi()Salut comment ça va ?
 
-// #noindent()[Oui Comment ça va ?]
-
-// Hallo hoe gaat het met je? 
 
 
 
@@ -46,4 +42,4 @@ $ 1 + 1 = 2  $
 //
 // #include "test.typ"
 
-#bibliography("./bibliography.bib")
+// #bibliography("./bibliography.bib")
