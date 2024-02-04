@@ -137,7 +137,7 @@
     // Increment the attachments.
     return [#it#numbers]
   }
-  set math.equation(numbering: "(1)")
+  // set math.equation(numbering: "(1)")
 
    // Remove captions
   show figure.caption: it => {
