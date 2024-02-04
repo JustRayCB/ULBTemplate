@@ -23,27 +23,42 @@
     First_line_indent: fil
 )
 
+#let hl(color: white, body) = box(
+    // More prettier way to highlight text
+    fill: color, inset: (x: 3pt, y: 0pt),
+    outset: (y: 3pt),
+    radius: 2pt,
+    body
+    // text(
+    //   font: "Cascadia Code",
+    //   size: 10.5pt,
+    //   body
+    // )
+)
 
 #let noi() =  {
     // No indent only when on the indent position
-    locate(loc => {
-        let x = loc.position().x.pt()
-        let indent_pos = (margins+fil)
-        if x == indent_pos{
-            return h(-fil)
-        }
-    })
+    // Doesn't WORK do not know why FIXME
+    // locate(loc => {
+    //     let x = loc.position().x.pt()
+    //     let indent_pos = (margins+fil)
+    //     if x == indent_pos{
+    //         return h(-fil)
+    //     }
+    // })
+    h(-fil)
 
 }
 
 #let i() = {
     // Indent only when on the start of the line (margins start)
     // WARNING: Different behaviour with locate function and juste using h(fil) function don't know why bug ??
-    locate(loc => {
-        let x = loc.position().x.pt()
-        if x == margins.pt(){
-            return h(fil)
-        }
-    })
-    // h(fil) Different behaviour while indenting at start position of a line
+    // Doesn't WORK do not know why FIXME
+    // locate(loc => {
+    //     let x = loc.position().x.pt()
+    //     if x == margins.pt(){
+    //         return h(fil)
+    //     }
+    // })
+    h(fil) // Different behaviour while indenting at start position of a line
 }
