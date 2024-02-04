@@ -107,8 +107,46 @@
   // URLs
 
   // TODO: References the boxes
+  show ref: it => {
+    if it.element != none {
+      let fig
+      let ele = it.element
+      let secNumber = counter(heading).at(ele.location())
+      let currentSec = counter(heading).at(it.location())
+      let sameSec = false
+      if secNumber == currentSec { sameSec = true }
+      while secNumber.len() < headerDepth { secNumber.push(0) }
+      if secNumber.len() > headerDepth { 
+        secNumber = secNumber.slice(0, headerDepth)
+      }
+      secNumber = numbering("1.", ..secNumber)
+      
+      if ele.has("child") and ele.child.func() == figure {
+        fig = ele.child
+      } 
+      if ele.func() == figure { fig = ele }
+      if fig != none {
+        let kind = fig.kind  
+        if kind in kinds {
+          let figNumber = counter("meta:Attachments").at(ele.location())
+          figNumber = figNumber.first() + 1
+          figNumber = numbering("1", figNumber)
+          // Detect if it's named
 
-  // Attachment Resetting
+          if fig.has("label") and fig.label == <meta:Named> {
+            let previousNamed = query(selector(<meta:NamedTitle>).after(ele.location()), ele.location())
+            let title = previousNamed.first()
+            let ref = link(ele.location())[#show text: strong; #title (#fig.supplement#secNumber#figNumber)]
+            return ref
+          }
+          let ref = link(ele.location())[#show text: strong; #fig.supplement#secNumber#figNumber]
+          return ref // TODO: Split up finding stuff into helper functions
+    }}}
+    it
+  }
+
+
+  // Attachment Resetting when (sub)sections change
   show heading.where(): it => {
     if it.level > headerDepth {
       it
@@ -176,8 +214,8 @@
     // gutter: 0.25em to reduce the space between the header and the separator
     // outset: 5pt to add space arout separator beyond the page margins
     chic-hdr.chic-separator(1pt),
-    chic-hdr.chic-offset(7pt),
-    chic-hdr.chic-height(2cm),
+    chic-hdr.chic-offset(30%),
+    chic-hdr.chic-height(2.5cm),
   )
   counter(page).update(1) // It has to be after. Don't ask me why
   // =========== End Header/Footer ==============
@@ -198,7 +236,7 @@
       pagebreak(weak: true)
       // I have to set the first-line-indent to 0pt for the heading
       set text(size: 22pt)
-      v(3%) 
+      v(1%) 
       if ("Bibliographie", "Références").contains(it.body.text){
         [#it]
       }
