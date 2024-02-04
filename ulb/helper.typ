@@ -1,5 +1,3 @@
-#import "config.typ"
-
 // Rebindings
 #let _typst-numbering = numbering
 
@@ -31,10 +29,6 @@
     return " "
   }
   panic("Unaccounted for content option.")
-}
-// Coloring
-#let getColor(name) = {
-  config.colors
 }
 
 // Figure Management

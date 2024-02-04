@@ -1,34 +1,20 @@
-#let figureKinds = (
-  ("definition", "def:"),
-  ("theorem", "thm:"),
-  ("proof", "proof:"),
-  ("showcase", "show:"),
-  ("note", "note:"),
-)
+#import "ulb/template.typ": Template
+#import "ulb/extra.typ": *
+#import "ulb/boxes.typ": *
 
-// https://github.com/typst/packages/blob/main/packages/preview/rose-pine/0.1.0/src/themes/rose-pine-moon.typ
-#let colors = (
-  dark: (
-    base: rgb("#232136"),
-    text: rgb("#e0def4"),
-  ),
-  light: (
-    base: rgb("#ffffff"),
-    text: rgb("#020202"),
-  ),
+// Take a look at the file `template.typ` in the file panel
+// to customize this template and discover how it works.
+#let template = Template.with(
+    Title: "Rayan's Template",
+    UE: "UE",
+    Subject: "Sujet",
+    Authors: (
+      "Rayan Contuliano Bravo",
+      "Hugo Callens",
+    ),
+    Teachers: (
+        "M. Name",
+    ),
+    TOC: false,
+    First_line_indent: 20pt
 )
-
-#let rose-pine-moon = (
-  surface : rgb("#2a273f"),
-  overlay : rgb("#393552"),
-  muted   : rgb("#6e6a86"),
-  subtle  : rgb("#908caa"),
-  love    : rgb("#eb6f92"),
-  highlight : (
-    low     : rgb("#2a283e"),
-    med     : rgb("#44415a"),
-    high    : rgb("#56526e"),
-  )
-)
-
-// Dark Mode Colors:

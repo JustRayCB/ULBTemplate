@@ -1,8 +1,7 @@
 #import "@preview/chic-hdr:0.4.0" // Library for headers and footers
-#import "@preview/outrageous:0.1.0"
+#import "@preview/outrageous:0.1.0" // Library for TOC formatting
 #import "helper.typ"
-#import "config.typ"
-#import "environments.typ": proofSection, popup
+
 #let Template(
   Title: "Titre",
   UE: "Unité d'enseignement",
@@ -19,9 +18,9 @@
   // Set the document's basic properties.
   // ===========Cover page=============
   set document(author: Authors, title: Title)
-  let banner= "./logos/banner.png"
-  let logo = "./logos/logo.jpg"
-  let sceau = "./logos/sceau.png"
+  let banner= "logos/banner.png"
+  let logo = "logos/logo.jpg"
+  let sceau = "logos/sceau.png"
   set page(
       background: 
           {
@@ -186,28 +185,33 @@
   // =========== Heading Formatting ==============
   set heading(numbering: "1.1")
   show heading: it =>{
+    set par(first-line-indent: 0pt) // Typst treats heading as paragraph, while there exists some weird behaviour,
     let number = counter(heading).display()
-    set par(first-line-indent: 0pt)
-    [
-      #number #it.body // For some reason the prefix fix the first line indent problem
-      // #it // While the default behaviour doesn't
-      #v(2mm)
-    ]
-  }
-  show heading.where(level: 1): it => {
-    pagebreak(weak: true)
-    let prefix = Heading_prefix.split("#")
-    let number = counter(heading).display()
-    prefix = prefix.join(number) // The prefix allow to have a different prefix than usual
-    set par(first-line-indent: 0pt) // Typst treats heading as paragraph, while there exists some weird behaviour, 
-    // I have to set the first-line-indent to 0pt for the heading
-    [
-      #set text(size: 22pt)
-      #v(3%) 
-      #prefix #it.body // For some reason the prefix fix the first line indent problem
-      // #it // While the default behaviour doesn't
-      #v(2%) // I prefer to have a space between the heading and the text. If you use this, you don't have to put '/' after
-    ]
+    if it.level != 1{
+      [
+        #number #it.body // For some reason the prefix fix the first line indent problem
+        // #it // While the default behaviour doesn't
+        #v(2mm)
+      ]
+    }
+    else{
+      pagebreak(weak: true)
+      // I have to set the first-line-indent to 0pt for the heading
+      set text(size: 22pt)
+      v(3%) 
+      if ("Bibliographie", "Références").contains(it.body.text){
+        [#it]
+      }
+      else{
+        let prefix = Heading_prefix.split("#")
+        prefix = prefix.join(number) // The prefix allow to have a different prefix than usual
+        [
+          #prefix #it.body // For some reason the prefix fix the first line indent problem
+          // #it // While the default behaviour doesn't
+        ]
+      }
+      v(2%) // I prefer to have a space between the heading and the text. If you use this, you don't have to put '/' after
+    }
   }
   // =========== End Heading Formatting ==============
 
@@ -223,83 +227,4 @@
 
   body
 }
-// Environments
-#let proof = proofSection.with(
-  supplement: "Preuve "
-)
-#let definition = popup.with(
-  type: "Définition ",
-  color: purple,
-  kind: "definition",
-)
-#let proposal = popup.with(
-  type: "Proposition ",
-  color: purple,
-  kind: "definition",
-)
-#let convention = popup.with(
-  type: "Convention ",
-  color: purple,
-  kind: "definition",
-)
-#let theorem = popup.with(
-  type: "Théorème ",
-  color: green,
-  kind: "result",
-)
-#let corollary = popup.with(
-  type: "Corrolaire ",
-  color: olive,
-  kind: "result",
-)
-#let proposition = popup.with(
-  type: "Proposition ",
-  color: blue,
-  kind: "result",
-)
-#let lemma = popup.with(
-  type: "Lemme ",
-  color: aqua,
-  kind: "result",
-)
-#let claim = popup.with(
-  type: "Affirmation ",
-  color: aqua,
-  kind: "result",
-)
-#let example = popup.with(
-  type: "Exemple ",
-  color: yellow,
-  kind: "showcase",
-)
-#let problem = popup.with(
-  type: "Problème ",
-  color: red,
-  kind: "showcase",
-)
-#let solution = popup.with(
-  type: "Solution ",
-  color: green,
-  kind: "showcase",
-)
-#let note = popup.with(
-  type: "Note ",
-  color: orange,
-  kind: "note",
-)
-#let remark = popup.with(
-  type: "Remarque ",
-  color: orange,
-  kind: "note",
-)
-#let warning = popup.with(
-  type: "Attention ",
-  color: red,
-  kind: "note",
-)
-#let exceptions = popup.with(
-  type: "Exception ",
-  color: red,
-  kind: "note",
-)
 
