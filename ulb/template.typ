@@ -134,6 +134,7 @@
           // Detect if it's named
 
           if fig.has("label") and fig.label == <meta:Named> {
+            // FIX: This is not working even if there is a title
             let previousNamed = query(selector(<meta:NamedTitle>).after(ele.location()), ele.location())
             let title = previousNamed.first()
             let ref = link(ele.location())[#show text: strong; #title (#fig.supplement#secNumber#figNumber)]
