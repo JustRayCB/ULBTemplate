@@ -70,8 +70,8 @@
   kind: "note",
 )
 #let warning = popup.with(
-  // type: "Attention",
-  type: [Attention #text(size: 0.7em)[#emoji.warning]],
+  type: "Attention ",
+  // type: [Attention #text(size: 0.7em)[#emoji.warning]],
   color: red,
   kind: "note",
 )
