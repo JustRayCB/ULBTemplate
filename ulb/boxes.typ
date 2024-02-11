@@ -2,55 +2,55 @@
 
 // ColorFull boxes based on Environments
 #let proof = proofSection.with(
-  supplement: "Preuve "
+  supplement: "Preuve"
 )
 #let definition = popup.with(
-  type: "Définition ",
+  type: "Définition",
   color: purple,
   kind: "definition",
 )
 #let proposal = popup.with(
-  type: "Suggestion ",
+  type: "Suggestion",
   color: purple,
   kind: "definition",
 )
 #let convention = popup.with(
-  type: "Convention ",
+  type: "Convention",
   color: purple,
   kind: "definition",
 )
 #let theorem = popup.with(
-  type: "Théorème ",
+  type: "Théorème",
   color: green,
   kind: "result",
 )
 #let corollary = popup.with(
-  type: "Corrolaire ",
+  type: "Corrolaire",
   color: olive,
   kind: "result",
 )
 #let proposition = popup.with(
-  type: "Proposition ",
+  type: "Proposition",
   color: blue,
   kind: "result",
 )
 #let lemma = popup.with(
-  type: "Lemme ",
+  type: "Lemme",
   color: aqua,
   kind: "result",
 )
 #let claim = popup.with(
-  type: "Affirmation ",
+  type: "Affirmation",
   color: aqua,
   kind: "result",
 )
 #let example = popup.with(
-  type: "Exemple ",
+  type: "Exemple",
   color: yellow,
   kind: "showcase",
 )
 #let problem = popup.with(
-  type: "Problème ",
+  type: "Problème",
   color: red,
   kind: "showcase",
 )
@@ -60,22 +60,23 @@
   kind: "showcase",
 )
 #let note = popup.with(
-  type: "Note ",
+  type: "Note",
   color: orange,
   kind: "note",
 )
 #let remark = popup.with(
-  type: "Remarque ",
+  type: "Remarque",
   color: orange,
   kind: "note",
 )
 #let warning = popup.with(
-  type: [Attention #text(size: 0.7em)[#emoji.warning] ],
+  // type: "Attention",
+  type: [Attention #text(size: 0.7em)[#emoji.warning]],
   color: red,
   kind: "note",
 )
 #let exceptions = popup.with(
-  type: "Exception ",
+  type: "Exception",
   color: red,
   kind: "note",
 )

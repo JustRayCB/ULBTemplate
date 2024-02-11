@@ -141,8 +141,10 @@
             return ref
           }
           let supp = fig.supplement
-          supp = supp.children.first()
-          // supp = supp.first()
+          if supp.has("children") {
+            // This means that the supplement contains an emoji
+            supp = supp.children.first()
+          }
           let ref = link(ele.location())[#show text: strong; #supp #secNumber#figNumber]
           return ref // TODO: Split up finding stuff into helper functions
     }}}
