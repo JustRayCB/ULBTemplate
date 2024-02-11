@@ -217,7 +217,7 @@
     ),
     // gutter: 0.25em to reduce the space between the header and the separator
     // outset: 5pt to add space arout separator beyond the page margins
-    chic-hdr.chic-separator(1pt),
+    chic-hdr.chic-separator(on: "header", 1pt),
     chic-hdr.chic-offset(30%),
     chic-hdr.chic-height(2.5cm),
   )
