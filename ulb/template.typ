@@ -12,7 +12,6 @@
   TOC: true,
   Depth: 5,
   First_line_indent: 20pt,
-  Heading_prefix: "# ",
   body,
 ) = {
   // Set the document's basic properties.

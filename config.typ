@@ -12,7 +12,6 @@
     Subject: "Sujet",
     Authors: (
       "Rayan Contuliano Bravo",
-      "Hugo Callens",
     ),
     Teachers: (
         "M. Name",
