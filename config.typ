@@ -1,6 +1,4 @@
 #import "ulb/template.typ": Template
-#import "ulb/extra.typ": *
-#import "ulb/boxes.typ": *
 
 // Take a look at the file `template.typ` in the file panel
 // to customize this template and discover how it works.

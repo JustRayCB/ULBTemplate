@@ -76,10 +76,10 @@
 
   v(2.4fr)
   pagebreak()
+  set page(background: none)
   // ===========End Cover page=============
   // =========== Start TOC ==============
 
-  set page(background: none)
 
   show outline.entry: outrageous.show-entry.with(
     font-weight: ("bold", auto),
@@ -102,95 +102,6 @@
   // =========== End TOC ==============
 
   let headerDepth = 1 // The depth of the numbering. 1 for 1.1, 2 for 1.1.1, etc. It will check Section, Subsection, Subsubsection, etc.
-  let kinds = ("result", "note", "showcase", "definition", "proof")
-  // Styling
-  // URLs
-
-  // TODO: References the boxes
-  show ref: it => {
-    if it.element != none {
-      let fig
-      let ele = it.element
-      let secNumber = counter(heading).at(ele.location())
-      let currentSec = counter(heading).at(it.location())
-      let sameSec = false
-      if secNumber == currentSec { sameSec = true }
-      while secNumber.len() < headerDepth { secNumber.push(0) }
-      if secNumber.len() > headerDepth { 
-        secNumber = secNumber.slice(0, headerDepth)
-      }
-      secNumber = numbering("1.", ..secNumber)
-      
-      if ele.has("child") and ele.child.func() == figure {
-        fig = ele.child
-      } 
-      if ele.func() == figure { fig = ele }
-      if fig != none {
-        let kind = fig.kind  
-        if kind in kinds {
-          let figNumber = counter("meta:Attachments").at(ele.location())
-          figNumber = figNumber.first() + 1
-          figNumber = numbering("1", figNumber)
-          // Detect if it's named
-
-          if fig.has("label") and fig.label == <meta:Named> {
-            // FIX: This is not working even if there is a title
-            let previousNamed = query(selector(<meta:NamedTitle>).after(ele.location()), ele.location())
-            let title = previousNamed.first()
-            let ref = link(ele.location())[#show text: strong; #title (#fig.supplement#secNumber#figNumber)]
-            return ref
-          }
-          let supp = fig.supplement
-          if supp.has("children") {
-            // This means that the supplement contains an emoji
-            supp = supp.children.first() + " "
-          }
-          let ref = link(ele.location())[#show text: strong; #supp#secNumber#figNumber]
-          return ref // TODO: Split up finding stuff into helper functions
-    }}}
-    it
-  }
-
-
-  // Attachment Resetting when (sub)sections change
-  show heading.where(): it => {
-    if it.level > headerDepth {
-      it
-    } else {
-      [#it#counter("meta:Attachments").update(0)]
-  }}
-
-
-  // Attachment Counting
-  show figure: it => {
-    if it.kind in kinds {
-      let increment = counter("meta:Attachments").step()
-      [#increment]
-    }
-    [#it]
-  }
-  show <meta:NumberHere>: it => {
-    // Get section numbers
-    let numbers = counter(heading).at(it.location())
-    while numbers.len() < headerDepth { numbers.push(0) }
-    if numbers.len() > headerDepth { 
-      numbers = numbers.slice(0, headerDepth)
-    }
-    // Format and append figure number.
-    numbers = numbering("1.", ..numbers) + str(counter("meta:Attachments").at(it.location()).first())
-    // Increment the attachments.
-    return [#it#numbers]
-  }
-  // set math.equation(numbering: "(1)")
-
-   // Remove captions
-  show figure.caption: it => {
-    if it.kind in kinds { return }
-    it
-  }
-
-
-
 
   // Start page numbering for real after TOC
 
@@ -228,35 +139,6 @@
 
   // =========== Heading Formatting ==============
   set heading(numbering: "1.1")
-  show heading: it =>{
-    set par(first-line-indent: 0pt) // Typst treats heading as paragraph, while there exists some weird behaviour,
-    let number = counter(heading).display()
-    if it.level != 1{
-      [
-        #number #it.body // For some reason the prefix fix the first line indent problem
-        // #it // While the default behaviour doesn't
-        #v(2mm)
-      ]
-    }
-    else{
-      pagebreak(weak: true)
-      // I have to set the first-line-indent to 0pt for the heading
-      set text(size: 22pt)
-      v(1%) 
-      if ("Bibliographie", "Références").contains(it.body.text){
-        [#it]
-      }
-      else{
-        let prefix = Heading_prefix.split("#")
-        prefix = prefix.join(number) // The prefix allow to have a different prefix than usual
-        [
-          #prefix #it.body // For some reason the prefix fix the first line indent problem
-          // #it // While the default behaviour doesn't
-        ]
-      }
-      v(2%) // I prefer to have a space between the heading and the text. If you use this, you don't have to put '/' after
-    }
-  }
   // =========== End Heading Formatting ==============
 
 
@@ -264,6 +146,7 @@
   // The first line indent can create weird behaviour with the heading as the heading is treated as a paragraph
   // The default behaviour does not have this problem. But if you use another show method, you have to set the first-line-indent to 0pt in the heading
   set par(justify: true, first-line-indent: First_line_indent)
+
   show link: it => {
     underline(text(blue, it))
   }
