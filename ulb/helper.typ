@@ -63,6 +63,9 @@
   // TODO: Optional level same with the next function
   return locate(loc => {
     let headings = query(heading.where(level: level), loc)
+    if headings.len() == 0 { // If there are no headings, return a space. to put on the header
+      return " "
+    }
     let current = headings.pop()
     // While the current page is behind the currently indexed section...
     while current.location().page() > loc.page() {
