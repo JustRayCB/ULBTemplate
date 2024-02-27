@@ -61,17 +61,32 @@
 }
 #let placeCurrentSection(level: 1) = {
   // TODO: Optional level same with the next function
+
+  // function taken from discord https://discord.com/channels/1054443721975922748/1160978608538533968/1161372706965557258
   return locate(loc => {
-    let headings = query(heading.where(level: level), loc)
-    if headings.len() == 0 { // If there are no headings, return a space. to put on the header
-      return " "
+    let prev = query(selector(heading).before(loc), loc)
+    let next = query(selector(heading).after(loc), loc)
+
+    let last = if prev != () { prev.last() }
+    let next = if next != () { next.first() }
+
+    let last-eligible = last != none and last.numbering != none
+    let next-eligible = next != none and next.numbering != none 
+    let next-on-current-page = if next != none {
+      next.location().page() == loc.page()
+    } else {
+      false
     }
-    let current = headings.pop()
-    // While the current page is behind the currently indexed section...
-    while current.location().page() > loc.page() {
-      current = headings.pop()
+
+    let heading = if next-eligible  and next-on-current-page {
+      next.body 
+    } else if last-eligible  and  not next-on-current-page {
+      last.body
+    }else {
+      " "
     }
-    return contentToString(current.body)
+    return [#heading]
+
 })}
 #let placeCurrentSectionNumber(level: 1, numbering: "1") = {
   return locate(location => {
