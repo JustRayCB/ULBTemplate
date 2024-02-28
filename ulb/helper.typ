@@ -64,8 +64,8 @@
 
   // function taken from discord https://discord.com/channels/1054443721975922748/1160978608538533968/1161372706965557258
   return locate(loc => {
-    let prev = query(selector(heading).before(loc), loc)
-    let next = query(selector(heading).after(loc), loc)
+    let prev = query(selector(heading.where(level: 1)).before(loc), loc)
+    let next = query(selector(heading.where(level: 1)).after(loc), loc)
 
     let last = if prev != () { prev.last() }
     let next = if next != () { next.first() }
