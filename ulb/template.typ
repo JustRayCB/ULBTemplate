@@ -108,6 +108,7 @@
   set page(numbering: "1")
   show: chic-hdr.chic.with(
     width:100%,
+    // BUG: Chic-hdr bug: if nothing follows the heading the header will go up
     chic-hdr.chic-header(
       /*
         Choose place because the banner was too high in contrast with the heading-name
@@ -116,7 +117,7 @@
         The default behaviour doesn't have this problem
       */
       // -14pt or 170% same ??
-      left-side: place(dy: -170%, image(banner, width: 70%)), 
+      left-side: place(dy: -145%, image(banner, width: 70%)), 
       // left-side: image(banner, width: 70%),
       // side-width: 1fr,
       v-center: true,
@@ -136,8 +137,34 @@
   counter(page).update(1) // It has to be after. Don't ask me why
   // =========== End Header/Footer ==============
 
+  let kinds = (image, raw, table)
+
+  set figure(numbering: (..nums) => locate((loc) => numbering("1.1",
+    ..counter(heading.where(level: 1)).at(loc),
+    ..nums
+  )))
+
   // =========== Heading Formatting ==============
   set heading(numbering: "1.1")
+  show heading: it =>{
+    let base = 22pt 
+    set block(breakable: false)
+    if it.level == 1 {
+      for kind in kinds {
+        counter(figure.where(kind: kind)).update(0)
+      }
+      set text(font: sans-font, size: base, weight: 700)
+      block(it, below: 1em)
+    }
+    else{
+      block(it, below: 1.0em, above: 1.5em)
+    }
+    // FIX: Temporary fix for the first line indent problem
+    let a = par(box())
+    a
+    v(-0.8 * measure(2 * a).width)
+
+  }
   // =========== End Heading Formatting ==============
 
 
@@ -147,9 +174,51 @@
   set par(justify: true, first-line-indent: First_line_indent)
 
   show link: it => {
-    underline(text(blue, it))
+    underline(text(rgb(0, 76, 146), it))
   }
 
+  show bibliography: it => {
+    pagebreak(weak: true)
+    show: chic-hdr.chic.with(
+      width:100%,
+      // BUG: Chic-hdr bug: if nothing follows the heading the header will go up
+      chic-hdr.chic-header(
+        /*
+          Choose place because the banner was too high in contrast with the heading-name
+          You can just use image(banner, width: 70%) if you want the default position
+          WARNING: If the name of the section is too long, it will overlap the banner and it will no be visible
+          The default behaviour doesn't have this problem
+        */
+        // -14pt or 170% same ??
+        left-side: place(dy: -145%, image(banner, width: 70%)), 
+        // left-side: image(banner, width: 70%),
+        // side-width: 1fr,
+        v-center: true,
+        right-side: smallcaps([*Bibliographie*]),
+      ),
+      chic-hdr.chic-footer(
+        left-side: UE,
+        center-side: Subject, 
+        right-side: counter(page).display("1"),
+      ),
+      // gutter: 0.25em to reduce the space between the header and the separator
+      // outset: 5pt to add space arout separator beyond the page margins
+      chic-hdr.chic-separator(on: "header", 1pt),
+      chic-hdr.chic-offset(30%),
+      chic-hdr.chic-height(2.5cm),
+  )
+  [#it]
+  };
+
+  show highlight: it =>{
+    box(
+        // More prettier way to highlight text
+        fill: it.fill, inset: (x: 3pt, y: 0pt),
+        outset: (y: 3pt),
+        radius: 2pt,
+        it.body
+    )
+  }
 
   body
 }
