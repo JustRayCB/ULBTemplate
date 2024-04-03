@@ -64,17 +64,17 @@
 }
 #let placeCurrentSection(level: 1) = {
   // function taken from discord https://discord.com/channels/1054443721975922748/1160978608538533968/1161372706965557258
-  return locate(loc => {
-    let prev = query(selector(heading.where(level: level)).before(loc), loc)
-    let next = query(selector(heading.where(level: level)).after(loc), loc)
 
+  context {
+    let prev = query(selector(heading.where(level: level)).before(here()))
+    let next = query(selector(heading.where(level: level)).after(here()))
     let last = if prev != () { prev.last() }
     let next = if next != () { next.first() }
 
     let last-eligible = last != none and last.numbering != none
     let next-eligible = next != none and next.numbering != none 
     let next-on-current-page = if next != none {
-      next.location().page() == loc.page()
+      next.location().page() == here().page()
     } else {
       false
     }
@@ -87,7 +87,8 @@
       " "
     }
     return heading
-})}
+  }
+}
 
 #let placeCurrentSectionNumber(level: 1, numbering: "1") = {
   return locate(location => {
