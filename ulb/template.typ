@@ -1,5 +1,6 @@
 #import "@preview/chic-hdr:0.4.0" // Library for headers and footers
 #import "@preview/outrageous:0.1.0" // Library for TOC formatting
+#import "@preview/linguify:0.3.1" // Library for language support
 #import "utils.typ"
 
 #let Template(
@@ -32,10 +33,16 @@
 
   v(9fr)
 
-  // Date + Title
-  text(1.1em, Date)
+  // ===========Date and Title=============
+  let lang_data = toml("lang.toml")
+  linguify.linguify_set_database(lang_data)
+  let (day, month, year) = Date.split(" ")
+  let month = linguify.linguify(month) // Translate the month to French
+  text(1.1em)[#day #month #year] 
+
   v(1.2em, weak: true)
   text(font: sans-font, 2em, weight: 700, Title)
+  // ===========End Date and Title=============
 
 
   // Authors
@@ -180,6 +187,10 @@
         radius: 2pt,
         it.body
     )
+  }
+
+  show ref: it => {
+    text(weight: "bold", it)
   }
 
   body
