@@ -28,6 +28,9 @@
   if content == [ ] {
     return " "
   }
+  else { // BUG:Problem when there is a quote in the content 
+    return content
+  }
   panic("Unaccounted for content option.")
 }
 
@@ -61,7 +64,6 @@
 }
 #let placeCurrentSection(level: 1) = {
   // TODO: Optional level same with the next function
-
   // function taken from discord https://discord.com/channels/1054443721975922748/1160978608538533968/1161372706965557258
   return locate(loc => {
     let prev = query(selector(heading.where(level: 1)).before(loc), loc)
@@ -86,7 +88,6 @@
       " "
     }
     return [#heading]
-
 })}
 #let placeCurrentSectionNumber(level: 1, numbering: "1") = {
   return locate(location => {
