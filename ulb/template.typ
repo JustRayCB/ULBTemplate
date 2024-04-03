@@ -1,6 +1,6 @@
 #import "@preview/chic-hdr:0.4.0" // Library for headers and footers
 #import "@preview/outrageous:0.1.0" // Library for TOC formatting
-#import "helper.typ"
+#import "utils.typ"
 
 #let Template(
   Title: "Titre",
@@ -20,28 +20,20 @@
   let banner= "logos/banner.png"
   let logo = "logos/logo.jpg"
   let sceau = "logos/sceau.png"
-  set page(
-      background: 
-          {
-            place(dx: 0%, dy: 0%, image(sceau, width: 100%, height: 100%))
-          }
-  )
-
   // Save heading and body font families in variables.
   let body-font = "Linux Libertine"
   let sans-font = "Inria Sans"
 
+  set page(background: image(sceau, width: 100%, height: 100%))
+  align(right, image(logo, width: 26%))
+
   // Set body font family.
   set text(font: body-font, lang: "fr", 12pt)
-  // show heading: set text(font: sans-font, size: 24pt)
 
-  if logo != none {
-    align(right, image(logo, width: 26%))
-  }
   v(9fr)
 
   // Date + Title
-  text(1.1em,Date)
+  text(1.1em, Date)
   v(1.2em, weak: true)
   text(font: sans-font, 2em, weight: 700, Title)
 
@@ -106,35 +98,19 @@
 
   // =========== Start Header/Footer ============== 
   set page(numbering: "1")
+
+  let configChic = utils.configChicHdr(
+    headerLeft: banner,
+    headerRight: smallcaps([*#utils.placeCurrentSection(level: 1)*]), 
+    footerLeft: UE,
+    footerCenter: Subject
+  )
   show: chic-hdr.chic.with(
-    width:100%,
-    // BUG: Chic-hdr bug: if nothing follows the heading the header will go up
-    chic-hdr.chic-header(
-      /*
-        Choose place because the banner was too high in contrast with the heading-name
-        You can just use image(banner, width: 70%) if you want the default position
-        WARNING: If the name of the section is too long, it will overlap the banner and it will no be visible
-        The default behaviour doesn't have this problem
-      */
-      // -14pt or 170% same ??
-      left-side: place(dy: -145%, image(banner, width: 70%)), 
-      // left-side: image(banner, width: 70%),
-      // side-width: 1fr,
-      v-center: true,
-      right-side: smallcaps([*#helper.placeCurrentSection(level:1)*]),
-    ),
-    chic-hdr.chic-footer(
-      left-side: UE,
-      center-side: Subject, 
-      right-side: counter(page).display("1"),
-    ),
-    // gutter: 0.25em to reduce the space between the header and the separator
-    // outset: 5pt to add space arout separator beyond the page margins
-    chic-hdr.chic-separator(on: "header", 1pt),
-    chic-hdr.chic-offset(30%),
-    chic-hdr.chic-height(2.5cm),
+    width: 100%,
+    ..configChic.values()
   )
   counter(page).update(1) // It has to be after. Don't ask me why
+
   // =========== End Header/Footer ==============
 
   let kinds = (image, raw, table)
@@ -177,38 +153,23 @@
     underline(text(rgb(0, 76, 146), it))
   }
 
+  // =========== Bibliography ==============
+  configChic = utils.configChicHdr(
+    headerLeft: banner,
+    headerRight: smallcaps([*Bibliographie*]),
+    footerLeft: UE,
+    footerCenter: Subject
+  )
+
   show bibliography: it => {
     pagebreak(weak: true)
     show: chic-hdr.chic.with(
       width:100%,
-      // BUG: Chic-hdr bug: if nothing follows the heading the header will go up
-      chic-hdr.chic-header(
-        /*
-          Choose place because the banner was too high in contrast with the heading-name
-          You can just use image(banner, width: 70%) if you want the default position
-          WARNING: If the name of the section is too long, it will overlap the banner and it will no be visible
-          The default behaviour doesn't have this problem
-        */
-        // -14pt or 170% same ??
-        left-side: place(dy: -145%, image(banner, width: 70%)), 
-        // left-side: image(banner, width: 70%),
-        // side-width: 1fr,
-        v-center: true,
-        right-side: smallcaps([*Bibliographie*]),
-      ),
-      chic-hdr.chic-footer(
-        left-side: UE,
-        center-side: Subject, 
-        right-side: counter(page).display("1"),
-      ),
-      // gutter: 0.25em to reduce the space between the header and the separator
-      // outset: 5pt to add space arout separator beyond the page margins
-      chic-hdr.chic-separator(on: "header", 1pt),
-      chic-hdr.chic-offset(30%),
-      chic-hdr.chic-height(2.5cm),
+      ..configChic.values()
   )
   [#it]
   };
+  // =========== End Bibliography ==============
 
   show highlight: it =>{
     box(
