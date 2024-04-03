@@ -125,20 +125,21 @@
   show heading: it =>{
     let base = 22pt 
     set block(breakable: false)
+    let below // The space below the heading
     if it.level == 1 {
       for kind in kinds {
         counter(figure.where(kind: kind)).update(0)
       }
       set text(font: sans-font, size: base, weight: 700)
-      block(it, below: 1em)
+      below = 0.8em
+      block(it, below: below)
     }
     else{
-      block(it, below: 1.0em, above: 1.5em)
+      below = 0.5em
+      block(it, below: below, above: 1.5em)
     }
     // FIX: Temporary fix for the first line indent problem
-    let a = par(box())
-    a
-    v(-0.8 * measure(2 * a).width)
+    text()[#v(below, weak: true)];text()[#h(0em)]
 
   }
   // =========== End Heading Formatting ==============
