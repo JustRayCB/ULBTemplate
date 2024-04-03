@@ -63,11 +63,10 @@
   return numbers
 }
 #let placeCurrentSection(level: 1) = {
-  // TODO: Optional level same with the next function
   // function taken from discord https://discord.com/channels/1054443721975922748/1160978608538533968/1161372706965557258
   return locate(loc => {
-    let prev = query(selector(heading.where(level: 1)).before(loc), loc)
-    let next = query(selector(heading.where(level: 1)).after(loc), loc)
+    let prev = query(selector(heading.where(level: level)).before(loc), loc)
+    let next = query(selector(heading.where(level: level)).after(loc), loc)
 
     let last = if prev != () { prev.last() }
     let next = if next != () { next.first() }
@@ -81,14 +80,15 @@
     }
 
     let heading = if next-eligible  and next-on-current-page {
-      next.body 
+      numbering(next.numbering, ..counter(heading).at(next.location())) + [. ] + next.body
     } else if last-eligible  and  not next-on-current-page {
-      last.body
+      numbering(last.numbering, ..counter(heading).at(last.location())) + [. ] + last.body
     }else {
       " "
     }
-    return [#heading]
+    return heading
 })}
+
 #let placeCurrentSectionNumber(level: 1, numbering: "1") = {
   return locate(location => {
     let number = counter(heading.where(level: level)).display(numbering)
