@@ -138,7 +138,7 @@
       block(it, below: below, above: 1.5em)
     }
     // FIX: Temporary fix for the first line indent problem
-    text()[#v(below, weak: true)];text()[#h(0em)]
+    text()[#v(below, weak: true)];text()[#h(0em)];parbreak()
 
   }
   // =========== End Heading Formatting ==============
