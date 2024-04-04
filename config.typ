@@ -9,6 +9,7 @@
 */
 // #box([#info(title: "Bonjour")[Salut]<salut>]) to fix the non indent text after
 #import "@preview/gentle-clues:0.7.1"
+
 // https://typst.app/universe/package/note-me
 /*
 * node, tip, important, warning, caution, todo
@@ -33,8 +34,29 @@
 
 #let fil = 20pt
 #let margins = 2.5cm
-#let kinds = ("definition", "theorem", "proof", "example", "proposition", "corollary", "lemma", "remark", "notation")
-#let extra-pref = (definition: "def:", theorem: "thm:", proof: "prf:", example: "ex:", proposition: "prop:", corollary: "cor:", lemma: "lem:", remark: "rem:", notation: "not:")
+#let kinds = (
+  "definition", 
+  "theorem",
+  "proof", 
+  "example",
+  "proposition",
+  "corollary",
+  "lemma",
+  "remark",
+  "notation"
+)
+
+#let extra-pref = (
+  definition: "def:", 
+  theorem: "thm:", 
+  proof: "prf:", 
+  example: "ex:",
+  proposition: "prop:", 
+  corollary: "cor:",
+  lemma: "lem:", 
+  remark: "rem:", 
+  notation: "not:"
+)
 
 
 

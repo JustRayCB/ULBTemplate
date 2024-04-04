@@ -16,7 +16,6 @@
   color: blue,
   breakable: false,
 ) = figure(
-    // [#body],
       showybox(
         [#body],
         color: color,
