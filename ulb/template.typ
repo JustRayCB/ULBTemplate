@@ -1,6 +1,7 @@
 #import "@preview/chic-hdr:0.4.0" // Library for headers and footers
 #import "@preview/outrageous:0.1.0" // Library for TOC formatting
 #import "@preview/linguify:0.3.1" // Library for language support
+#import "@preview/i-figured:0.2.4"
 #import "utils.typ"
 
 #let Template(
@@ -13,6 +14,8 @@
   TOC: true,
   Depth: 5,
   First_line_indent: 20pt,
+  kinds: (),
+  extra-pref: (),
   body,
 ) = {
   // Set the document's basic properties.
@@ -119,14 +122,6 @@
   counter(page).update(1) // It has to be after. Don't ask me why
 
   // =========== End Header/Footer ==============
-
-  let kinds = (image, raw, table)
-
-  set figure(numbering: (..nums) => locate((loc) => numbering("1.1",
-    ..counter(heading.where(level: 1)).at(loc),
-    ..nums
-  )))
-
   // =========== Heading Formatting ==============
   set heading(numbering: "1.1")
   show heading: it =>{
@@ -134,9 +129,6 @@
     set block(breakable: false)
     let below // The space below the heading
     if it.level == 1 {
-      for kind in kinds {
-        counter(figure.where(kind: kind)).update(0)
-      }
       set text(font: sans-font, size: base, weight: 700)
       below = 0.8em
       block(it, below: below)
@@ -192,6 +184,10 @@
   show ref: it => {
     text(weight: "bold", it)
   }
+
+  show heading: i-figured.reset-counters.with(level: 1, extra-kinds: kinds)
+  show figure: i-figured.show-figure.with(extra-prefixes: extra-pref)
+  show math.equation: i-figured.show-equation
 
   body
 }

@@ -1,6 +1,7 @@
 // Take a look at the file `template.typ` in the file panel
 // to customize this template and discover how it works.
 #import "ulb/template.typ": Template
+#import "ulb/boxs.typ": popup
 
 // https://typst.app/universe/package/gentle-clues
 /*
@@ -14,15 +15,6 @@
 */
 #import "@preview/note-me:0.2.1"
 
-// https://typst.app/universe/package/showybox
-// #figure(
-//   showybox(
-//     [Hello world!]
-//   ),
-//   supplement: "Définition", numbering: "1.1",
-//   outlined: true
-// )<salut>
-#import "@preview/showybox:2.0.1": showybox
 
 // https://typst.app/universe/package/i-figured
 #import "@preview/i-figured:0.2.4"
@@ -37,8 +29,12 @@
 // https://typst.app/universe/package/codly
 #import "@preview/codly:0.2.0"
 
+
+
 #let fil = 20pt
 #let margins = 2.5cm
+#let kinds = ("definition", "theorem", "proof", "example", "proposition", "corollary", "lemma", "remark", "notation")
+#let extra-pref = (definition: "def:", theorem: "thm:", proof: "prf:", example: "ex:", proposition: "prop:", corollary: "cor:", lemma: "lem:", remark: "rem:", notation: "not:")
 
 
 
@@ -54,7 +50,9 @@
         "M. Name",
     ),
     TOC: false,
-    First_line_indent: fil
+    First_line_indent: fil,
+    kinds: kinds,
+    extra-pref: extra-pref,
 )
 
 // NoIndent function
@@ -67,3 +65,57 @@
 #let i() = {
     h(fil) // Different behaviour while indenting at start position of a line
 }
+
+#let definition = popup.with(
+  kind: "definition",
+  supplement: "Définition",
+  color: purple,
+)
+
+#let theorem = popup.with(
+  kind: "theorem",
+  supplement: "Théorème",
+  color: blue,
+)
+
+#let proof = popup.with(
+  kind: "proof",
+  supplement: "Preuve",
+  color: green,
+)
+
+#let example = popup.with(
+  kind: "example",
+  supplement: "Exemple",
+  color: orange,
+)
+
+#let proposition = popup.with(
+  kind: "proposition",
+  supplement: "Proposition",
+  color: red,
+) 
+
+#let corollary = popup.with(
+  kind: "corollary",
+  supplement: "Corollaire",
+  color: yellow,
+) 
+
+#let lemma = popup.with(
+  kind: "lemma",
+  supplement: "Lemme",
+  color: aqua,
+) 
+
+#let remark = popup.with(
+  kind: "remark",
+  supplement: "Remarque",
+  color: lime,
+)
+
+#let notation = popup.with(
+  kind: "notation",
+  supplement: "Notation",
+  color: purple,
+)
