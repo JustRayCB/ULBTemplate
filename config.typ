@@ -77,17 +77,6 @@
     extra-pref: extra-pref,
 )
 
-// NoIndent function
-#let noi() =  {
-    h(-fil)
-
-}
-
-// Indent function
-#let i() = {
-    h(fil) // Different behaviour while indenting at start position of a line
-}
-
 #let definition = popup.with(
   kind: "definition",
   supplement: "Définition",
@@ -141,3 +130,15 @@
   supplement: "Notation",
   color: purple,
 )
+
+// NoIndent function
+#let noi() =  {
+    h(-fil)
+
+}
+
+// Indent function
+#let i() = {
+    h(fil) // Different behaviour while indenting at start position of a line
+}
+
