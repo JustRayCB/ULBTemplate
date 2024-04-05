@@ -18,8 +18,8 @@
 
 #let popup(
   body,
-  kind: "info", 
-  supplement: "Information",
+  kind: "definition",
+  supplement: "Définition",
   color: blue,
   breakable: false,
 ) = {
@@ -27,7 +27,8 @@
   let figNb = context (counter(figure.where(kind: kind)).get()).at(0)
   let sectionNb = context (getSectionNumber()).at(0)
   let title = strong()[#supplement #sectionNb.#figNb:]
-  figure(
+  block(
+    figure(
       showybox(
         [
           #title
@@ -40,6 +41,24 @@
       supplement: supplement,
       outlined: true,
       caption: "This is a " + supplement + " box"
-    )
+    ),
+    above: 3em,
+    below: 3em,
+  )
+
+}
+
+#let borderBox(
+  body,
+  kind: "remark", 
+  supplement: "Remarque", 
+  color: blue, 
+  breakable: false, 
+) = {
+  let figNb = context (counter(figure.where(kind: kind)).get()).at(0)
+  let sectionNb = context (getSectionNumber()).at(0)
+  let title = strong()[#supplement #sectionNb.#figNb:]
+
+
 }
 

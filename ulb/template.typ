@@ -153,6 +153,10 @@
   set par(justify: true, first-line-indent: First_line_indent)
 
   show link: it => {
+    if it.has("dest") and type(it.at("dest")) == label {
+      // If the link is a reference to a figure, we want to display it bold
+      return strong()[#it]
+    }
     underline(text(rgb(0, 76, 146), it))
   }
 
@@ -185,7 +189,24 @@
   }
 
   show ref: it => {
-    text(weight: "bold", it)
+    if it.element != none and it.element.func() == block{
+      // Here we want to refercence a block (which normally isn't possible)
+      let fig
+      let ele = it.element
+      if ele.has("body") and ele.body.func() == figure {
+        // We juste want to ref the blocks that contains a figure
+        fig = ele.body
+      }
+      if fig != none {
+        let kind = fig.kind
+        let supplement = fig.supplement
+        let figNb = context (counter(figure.where(kind: kind)).get()).at(0)
+        let sectionNb = context (utils.getSectionNumber()).at(0)
+        return link(ele.label)[#strong()[#supplement #sectionNb.#figNb]]
+      }
+    }
+    strong()[#it]
+
   }
 
   show heading: i-figured.reset-counters.with(level: 1, extra-kinds: kinds)
