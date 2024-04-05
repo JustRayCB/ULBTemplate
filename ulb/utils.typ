@@ -32,6 +32,10 @@
   }
 }
 
+#let getSectionNumber(level: 1) = {
+  return counter(heading.where(level: level)).get()
+}
+
 
 /*
 * Config chic-hdr header and footer

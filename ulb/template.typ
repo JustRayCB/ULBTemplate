@@ -130,6 +130,9 @@
     let below // The space below the heading
     if it.level == 1 {
       set text(font: sans-font, size: base, weight: 700)
+      for kind in kinds {
+        counter(figure.where(kind: kind)).update(0)
+      }
       below = 0.8em
       block(it, below: below)
     }
