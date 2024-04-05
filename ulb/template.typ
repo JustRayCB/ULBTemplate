@@ -200,7 +200,8 @@
       if fig != none {
         let kind = fig.kind
         let supplement = fig.supplement
-        let figNb = context (counter(ele.location()).get()).at(0)
+        // +1 because we want the counter for this figure not the one before
+        let figNb = context counter(figure.where(kind: kind)).at(ele.location()).first()+1
         let sectionNb = context (utils.getSectionNumber()).at(0)
         return link(ele.label)[#strong()[#supplement #sectionNb.#figNb]]
       }
