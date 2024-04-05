@@ -1,7 +1,7 @@
 // Take a look at the file `template.typ` in the file panel
 // to customize this template and discover how it works.
 #import "ulb/template.typ": Template
-#import "ulb/boxs.typ": popup
+#import "ulb/boxs.typ": popup, borderBox
 
 // https://typst.app/universe/package/gentle-clues
 /*
@@ -25,7 +25,7 @@
 
 // https://typst.app/universe/package/octique
 // #octique-inline("accessibility-inset", color: green)
-#import "@preview/octique:0.1.0"
+#import "@preview/octique:0.1.0": octique-inline
 
 // https://typst.app/universe/package/codly
 #import "@preview/codly:0.2.0"
@@ -56,6 +56,18 @@
   lemma: "lem:", 
   remark: "rem:", 
   notation: "not:"
+)
+
+#let colorKind = (
+  definition: teal,
+  theorem: blue,
+  proof: navy,
+  example: orange,
+  proposition: red,
+  corollary: yellow,
+  lemma: aqua,
+  remark: lime,
+  notation: purple
 )
 
 
@@ -90,16 +102,18 @@
   color: blue,
 )
 
-#let proof = popup.with(
+#let proof = borderBox.with(
   kind: "proof",
   supplement: "Preuve",
-  color: green,
+  color: colorKind.proof,
+  icon: [#octique-inline("bookmark", color: colorKind.proof)]
 )
 
-#let example = popup.with(
+#let example = borderBox.with(
   kind: "example",
   supplement: "Exemple",
-  color: orange,
+  color: colorKind.example,
+  icon: [#octique-inline("flame", color: colorKind.example)]
 )
 
 #let proposition = popup.with(
@@ -120,10 +134,12 @@
   color: aqua,
 ) 
 
-#let remark = popup.with(
+#let remark = borderBox.with(
   kind: "remark",
   supplement: "Remarque",
-  color: lime,
+  color: colorKind.remark,
+  icon: octique-inline("light-bulb", color: colorKind.remark)
+
 )
 
 #let notation = popup.with(
