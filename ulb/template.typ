@@ -200,7 +200,7 @@
       if fig != none {
         let kind = fig.kind
         let supplement = fig.supplement
-        let figNb = context (counter(figure.where(kind: kind)).get()).at(0)
+        let figNb = context (counter(ele.location()).get()).at(0)
         let sectionNb = context (utils.getSectionNumber()).at(0)
         return link(ele.label)[#strong()[#supplement #sectionNb.#figNb]]
       }
