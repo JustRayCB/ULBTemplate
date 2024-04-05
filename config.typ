@@ -72,6 +72,7 @@
         "M. Name",
     ),
     TOC: false,
+    FTOC: false,
     First_line_indent: fil,
     kinds: kinds,
     extra-pref: extra-pref,

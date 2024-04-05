@@ -12,6 +12,7 @@
   Teachers: (),
   Date: datetime.today().display("[day] [month repr:long] [year]"),
   TOC: true,
+  FTOC: true,
   Depth: 5,
   First_line_indent: 20pt,
   kinds: (),
@@ -99,6 +100,34 @@
     counter(page).update(1)
     outline(indent: auto, depth: Depth)
     pagebreak(weak: true)
+    if FTOC{
+      /*
+      * TOC of figures
+      */
+      {
+        // reset entry style to default
+        show outline.entry: outrageous.show-entry.with(
+          ..outrageous.presets.typst,
+          vspace: (12pt, none),
+          fill: (repeat[~~.], none),
+          fill-right-pad: 0.4cm,
+          fill-align: true,
+        )
+        show heading: set heading(outlined: true) // add the heading of the TOC of figures to the TOC
+        context {
+          for kind in kinds {
+            let all_figs = query(selector(figure.where(kind: kind))) // get all the figures of a kind
+            if all_figs.len() > 0 {
+              let supplement = all_figs.first().supplement
+              supplement = supplement + [s]
+              i-figured.outline(target-kind: kind, title: [Liste des #lower(supplement)])
+            }
+          }
+        }
+      }
+    }
+    pagebreak(weak: true)
+
   }
   // =========== End TOC ==============
 
