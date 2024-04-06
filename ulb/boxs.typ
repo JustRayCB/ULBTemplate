@@ -27,7 +27,7 @@
 ) = {
   let title 
   let caption
-  let footer
+  let footer = ""
   let figNb = context (counter(figure.where(kind: kind, outlined:true)).get()).at(0)
   let sectionNb = context (getSectionNumber()).at(0)
   let prefix = strong()[#supplement #sectionNb.#figNb]
@@ -116,7 +116,7 @@
       frame: frame,
       // title: header-block(title, pic),
       title: title,
-      footer: none,
+      footer: footer,
       breakable: breakable,
       body,
     )],
