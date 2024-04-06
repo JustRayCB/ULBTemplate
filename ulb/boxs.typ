@@ -80,24 +80,37 @@
     let outlined = if caption != none {true} else {false}
     let pic
     let size = 2em
-    if type(icon) == str{
+    if icon == none {
+      pic = none
+    } else if type(icon) == str{
       pic = text(size: size)[#image(icon, fit: "contain")] 
     }else{
       pic = text(size: size)[#icon] 
     }
 
     let header-block(header, pic) = {
+      let current_grid = if pic == none {
+        grid(
+          columns: 1,
+          align: (left),
+          inset: 0.4em,
+          // stroke: 1pt,
+          header
+        )
+      } else {
+        grid(
+          columns: (2em, 2fr),
+          align: (horizon, left + horizon),
+          gutter: 0.5em,
+          pic,
+          header
+        )
+      }
       block(
         width: 100%,
-        inset: 6pt,
+        inset: 5pt,
       )[
-          #grid(
-            columns: (2em, 2fr),
-            align: (horizon, left + horizon),
-            gutter: 0.5em,
-            pic,
-            header
-          )
+        #current_grid
       ]
     }
 
