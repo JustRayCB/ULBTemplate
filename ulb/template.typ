@@ -264,6 +264,17 @@
     it
   }
 
+  show figure: it =>{
+    let  splitted = it.kind.split("\"")
+    if splitted.len() >= 2{ // The kind of the figure is i-figured-"kind" so we want to remove the i-figured- part
+      let kind = splitted.at(1)
+      if kind in kinds {
+        return [#set block(breakable: true); #it]
+      }
+    }
+    it
+  }
+
 
   show heading: i-figured.reset-counters.with(level: 1, extra-kinds: kinds)
   show figure: i-figured.show-figure.with(extra-prefixes: extra-pref)

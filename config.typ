@@ -104,7 +104,7 @@
 
 #let proof = borderBox.with(
   kind: "proof",
-  supplement: "Preuve",
+  supplement: "Démonstration",
   color: colorKind.proof,
   icon: octique("bookmark", color: colorKind.proof)
 )
