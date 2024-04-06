@@ -159,7 +159,7 @@
     let below // The space below the heading
     if it.level == 1 {
       set text(font: sans-font, size: base, weight: 700)
-      for kind in kinds {
+      for kind in kinds + (figure, table, image) {
         counter(figure.where(kind: kind, outlined:true)).update(0)
       }
       below = 0.8em
@@ -233,7 +233,7 @@
         // +1 because we want the counter for this figure not the one before
         if fig.outlined {
           let figNb = context counter(figure.where(kind: kind, outlined:true)).at(ele.location()).first()+1
-          let sectionNb = context (utils.getSectionNumber()).at(0)
+          let sectionNb = context (utils.getSectionNumber(location: ele.location())).first()
           return link(ele.label)[#strong()[#supplement #sectionNb.#figNb]]
         }else{
           return link(ele.label)[#strong()[#supplement]]
@@ -245,7 +245,7 @@
       let supplement = fig.supplement
       if fig.outlined {
         let figNb = context counter(figure.where(kind: kind, outlined:true)).at(it.location()).first()
-        let sectionNb = context (utils.getSectionNumber()).at(0)
+        let sectionNb = context (utils.getSectionNumber(location: fig.location())).at(0)
         return link(it.target)[#strong()[#supplement #sectionNb.#figNb]]
       }else{
         return link(it.target)[#strong()[#supplement]]

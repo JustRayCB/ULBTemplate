@@ -32,8 +32,12 @@
   }
 }
 
-#let getSectionNumber(level: 1) = {
-  return counter(heading.where(level: level)).get()
+#let getSectionNumber(level: 1, location: "") = {
+  if location == ""{
+    return counter(heading.where(level: level)).get()
+  }else{
+    return counter(heading.where(level: level)).at(location)
+  }
 }
 
 
