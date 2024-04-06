@@ -239,6 +239,17 @@
           return link(ele.label)[#strong()[#supplement]]
         }
       }
+    }else if it.element != none and it.element.func() == figure{
+      let fig = it.element
+      let kind = fig.kind
+      let supplement = fig.supplement
+      if fig.outlined {
+        let figNb = context counter(figure.where(kind: kind, outlined:true)).at(it.location()).first()
+        let sectionNb = context (utils.getSectionNumber()).at(0)
+        return link(it.target)[#strong()[#supplement #sectionNb.#figNb]]
+      }else{
+        return link(it.target)[#strong()[#supplement]]
+      }
     }
     strong()[#it]
 
