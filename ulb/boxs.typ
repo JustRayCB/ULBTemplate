@@ -76,20 +76,12 @@
     let pic
     let image-width
     let size = 2em
-    if type(icon) == symbol{ // Typst emojis
+    if type(icon) == str{
+      pic = text(size: size)[#image(icon, fit: "contain")] 
+    }else{
       pic = text(size: size)[#icon] 
-    }else if type(icon) == content{
-      if icon.has("body"){
-        if icon.body.has("format") and icon.body.format == "svg"{ // Octique icons
-        pic = text(size: size)[#icon] 
-        }
-      }
-      else{ // Unicode emojis
-        pic = text(size: size)[#icon] 
-      }
-    }else { // custom images
-        pic = text(size: size)[#image(icon, fit: "contain")] 
     }
+
     let header = context [#box(
             width: 100%,
             inset: 6pt,
@@ -148,11 +140,8 @@
       radius: (top-left: 0.7pt,  bottom-left: 1pt),
       stroke: (x: 3pt + color, right: none),
       outset: 0.4%,
-      above: 2em,
+      above:2em,
       below: 2em,
     )
-
-
-
   }
 
