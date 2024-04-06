@@ -60,7 +60,7 @@
 
     let title 
     let caption
-    let figNb = context (counter(figure.where(kind: kind)).get()).at(0)
+    let figNb = context (counter(figure.where(kind: kind, outlined:true)).get()).at(0)
     let sectionNb = context (getSectionNumber()).at(0)
     let prefix = strong()[#supplement #sectionNb.#figNb]
     assert(arguments.pos().len() < 2, message: "Too many passed arguments.")
@@ -73,9 +73,11 @@
       caption = title
       title = text()[#prefix: ] + title
     } else {
+      prefix = strong()[#supplement]
       title = prefix
       // INFO:If the caption is none, the fig will not appear in the FTOC
     }
+    let outlined = if caption != none {true} else {false}
     let pic
     let size = 2em
     if type(icon) == str{
@@ -128,8 +130,6 @@
         )
       ] // block end
 
-    show figure.caption: none
-    let outlined = if caption != none {true} else {false}
     block(
       figure(
         res,
