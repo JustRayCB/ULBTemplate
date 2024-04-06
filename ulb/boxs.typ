@@ -59,6 +59,7 @@
 ) = {
 
     let title 
+    let caption
     let figNb = context (counter(figure.where(kind: kind)).get()).at(0)
     let sectionNb = context (getSectionNumber()).at(0)
     let prefix = strong()[#supplement #sectionNb.#figNb]
@@ -69,12 +70,13 @@
       body = arguments.pos().first()
     }
     if title != none {
+      caption = title
       title = text()[#prefix: ] + title
     } else {
       title = prefix
+      // INFO:If the caption is none, the fig will not appear in the FTOC
     }
     let pic
-    let image-width
     let size = 2em
     if type(icon) == str{
       pic = text(size: size)[#image(icon, fit: "contain")] 
@@ -82,26 +84,24 @@
       pic = text(size: size)[#icon] 
     }
 
-    let header = context [#box(
-            width: 100%,
-            inset: 6pt,
-          )[
-              #grid(
-                columns: (2em, 2fr),
-                align: (horizon, left + horizon),
-                gutter: 0.5em,
-                stroke: 0pt,
-                // box(width: image-width, height: 1em, stroke: 0pt)[
-                box(stroke: 0pt)[
-                  #pic
-                ],
-                title
-              )
-          ]
-        ]
+    let header-block(header, pic) = {
+      block(
+        width: 100%,
+        inset: 6pt,
+      )[
+          #grid(
+            columns: (2em, 2fr),
+            align: (horizon, left + horizon),
+            gutter: 0.5em,
+            pic,
+            header
+          )
+      ]
+    }
 
 
-    let content-box(content) = {
+
+    let content-block(content) = {
       // Postfixing
       content += [#v(4pt)]
       let QED = place(right, move([#emoji.face.cool], dx: 2%, dy: -1%))
@@ -114,30 +114,32 @@
         inset: 10pt,
         width: 100%,
         fill: white, 
-      )[#content ]
+      )[#content]
     }
 
 
     let res = block(
         width: auto,
-        inset: (left: 1pt),
       )[
         #set align(start)
         #stack(dir: ttb,
-          header,
-          content-box(body)
+          header-block(title, pic),
+          content-block(body)
         )
       ] // block end
+
+    show figure.caption: none
+    let outlined = if caption != none {true} else {false}
     block(
       figure(
         res,
         kind: kind,
         supplement: supplement,
-        outlined: true,
-        // caption: "This is a " + supplement + " box",
+        outlined: outlined,
+        caption: caption,
       ),
       breakable: breakable,
-      radius: (top-left: 0.7pt,  bottom-left: 1pt),
+      radius: (top-left: 0pt,  bottom-left: 0pt),
       stroke: (x: 3pt + color, right: none),
       outset: 0.4%,
       above:2em,

@@ -239,11 +239,6 @@
     strong()[#it]
 
   }
-  show figure.caption: it => {
-    if it.kind in kinds { return }
-    it
-  }
-
   show heading: i-figured.reset-counters.with(level: 1, extra-kinds: kinds)
   show figure: i-figured.show-figure.with(extra-prefixes: extra-pref)
   show math.equation: i-figured.show-equation
