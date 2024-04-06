@@ -163,6 +163,7 @@
         counter(figure.where(kind: kind)).update(0)
       }
       below = 0.8em
+      pagebreak(weak: true)
       block(it, below: below)
     }
     else{
