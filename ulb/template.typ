@@ -116,7 +116,7 @@
         show heading: set heading(outlined: true) // add the heading of the TOC of figures to the TOC
         context {
           for kind in kinds {
-            let all_figs = query(selector(figure.where(kind: kind))) // get all the figures of a kind
+            let all_figs = query(selector(figure.where(kind: kind, outlined:true))) // get all the figures of a kind
             if all_figs.len() > 0 {
               let supplement = all_figs.first().supplement
               supplement = supplement + [s]
@@ -160,7 +160,7 @@
     if it.level == 1 {
       set text(font: sans-font, size: base, weight: 700)
       for kind in kinds {
-        counter(figure.where(kind: kind)).update(0)
+        counter(figure.where(kind: kind, outlined:true)).update(0)
       }
       below = 0.8em
       pagebreak(weak: true)
@@ -231,14 +231,29 @@
         let kind = fig.kind
         let supplement = fig.supplement
         // +1 because we want the counter for this figure not the one before
-        let figNb = context counter(figure.where(kind: kind)).at(ele.location()).first()+1
-        let sectionNb = context (utils.getSectionNumber()).at(0)
-        return link(ele.label)[#strong()[#supplement #sectionNb.#figNb]]
+        if fig.outlined {
+          let figNb = context counter(figure.where(kind: kind, outlined:true)).at(ele.location()).first()+1
+          let sectionNb = context (utils.getSectionNumber()).at(0)
+          return link(ele.label)[#strong()[#supplement #sectionNb.#figNb]]
+        }else{
+          return link(ele.label)[#strong()[#supplement]]
+        }
       }
     }
     strong()[#it]
 
   }
+
+  show figure.caption: it => {
+    let  splitted = it.kind.split("\"")
+    if splitted.len() >= 2{ // The kind of the figure is i-figured-"kind" so we want to remove the i-figured- part
+      let kind = splitted.at(1)
+      if kind in kinds {return}
+    }
+    it
+  }
+
+
   show heading: i-figured.reset-counters.with(level: 1, extra-kinds: kinds)
   show figure: i-figured.show-figure.with(extra-prefixes: extra-pref)
   show math.equation: i-figured.show-equation
