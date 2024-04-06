@@ -18,30 +18,108 @@
 
 #let popup(
   body,
+  ..arguments,
   kind: "definition",
   supplement: "Définition",
+  icon: emoji.hi,
   color: blue,
   breakable: false,
 ) = {
-  // +1 because the current figure in not created yet
-  let figNb = context (counter(figure.where(kind: kind)).get()).at(0)
+  let title 
+  let caption
+  let footer
+  let figNb = context (counter(figure.where(kind: kind, outlined:true)).get()).at(0)
   let sectionNb = context (getSectionNumber()).at(0)
-  let title = strong()[#supplement #sectionNb.#figNb:]
-  block(
-    figure(
-      showybox(
-        [
-          #title
-          #body
-        ],
-        color: color,
-        breakable: breakable,
+  let prefix = strong()[#supplement #sectionNb.#figNb]
+  assert(arguments.pos().len() <= 2, message: "Too many `content` passed.")
+  if arguments.pos().len() == 1 {
+    title = body
+    body = arguments.pos().at(0)
+  } else if arguments.pos().len() == 2 {
+    title = body
+    body = arguments.pos().at(0)
+    footer = arguments.pos().at(1, default: "")
+  }
+  if title != none {
+    caption = title
+    title = text()[#prefix: ] + title
+  } else {
+    prefix = strong()[#supplement]
+    title = prefix
+    // INFO:If the caption is none, the fig will not appear in the FTOC
+  }
+  if footer != "" {
+    footer = [#set text(black); #text(size: 10pt, weight: 600, footer)]
+  }
+
+  let outlined = if caption != none {true} else {false}
+  let pic
+  let size = 2em
+  if icon == none {
+    pic = none
+  } else if type(icon) == str{
+    pic = text(size: size)[#image(icon, fit: "contain")] 
+  }else{
+    pic = text(size: size)[#icon] 
+  }
+  // Title Style
+  let titleStyle = (
+    boxed-style: (
+      anchor: (
+        x: left,
+        y: horizon
       ),
+      radius: (top-left: 10pt, bottom-right: 10pt, rest: 0pt),
+    )
+  )
+  let frame = (
+      title-color: color.darken(55%),
+      body-color: color.lighten(90%),
+      footer-color: color.lighten(70%),
+      border-color: color.darken(70%),
+      radius: (top-left: 10pt, bottom-right: 10pt, rest: 0pt)
+  )
+
+  let header-block(header, pic) = {
+    let current_grid = if pic == none {
+      grid(
+        columns: 1,
+        align: (left),
+        inset: 0.4em,
+        // stroke: 1pt,
+        header
+      )
+    } else {
+      grid(
+        columns: (2em, 2fr),
+        align: (horizon, left + horizon),
+        gutter: 0.5em,
+        pic,
+        header
+      )
+    }
+    return [#box(
+      width: 100%,
+      inset: 5pt,
+    )[
+      #current_grid
+    ]]
+  }
+  return block(
+    figure(
       kind: kind,
+      caption: [#caption],
       supplement: supplement,
-      outlined: true,
-      caption: "This is a " + supplement + " box"
-    ),
+      outlined: outlined,
+    )[#showybox(
+      title-style: titleStyle,
+      frame: frame,
+      // title: header-block(title, pic),
+      title: title,
+      footer: none,
+      breakable: breakable,
+      body,
+    )],
     above: 3em,
     below: 3em,
   )
