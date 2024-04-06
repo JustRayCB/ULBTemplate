@@ -73,22 +73,22 @@
     } else {
       title = prefix
     }
-    let image
+    let pic
     let image-width
     let size = 2em
     if type(icon) == symbol{ // Typst emojis
-      image = text(size: size)[#icon] 
+      pic = text(size: size)[#icon] 
     }else if type(icon) == content{
       if icon.has("body"){
         if icon.body.has("format") and icon.body.format == "svg"{ // Octique icons
-        image = text(size: size)[#icon] 
+        pic = text(size: size)[#icon] 
         }
       }
       else{ // Unicode emojis
-        image = text(size: size)[#icon] 
+        pic = text(size: size)[#icon] 
       }
     }else { // custom images
-      image = text(size: size)[#box(height: 1em, baseline: 17%)[#image(icon, fit: "contain")]]
+        pic = text(size: size)[#image(icon, fit: "contain")] 
     }
     let header = context [#box(
             width: 100%,
@@ -101,7 +101,7 @@
                 stroke: 0pt,
                 // box(width: image-width, height: 1em, stroke: 0pt)[
                 box(stroke: 0pt)[
-                  #image
+                  #pic
                 ],
                 title
               )
@@ -111,7 +111,7 @@
 
     let content-box(content) = {
       // Postfixing
-      content += [#v(10pt)]
+      content += [#v(4pt)]
       let QED = place(right, move([#emoji.face.cool], dx: 2%, dy: -1%))
       content = if kind == "proof" {
         content + QED
@@ -119,7 +119,6 @@
         content
       }
       block(
-        breakable: breakable,
         inset: 10pt,
         width: 100%,
         fill: white, 
@@ -128,7 +127,6 @@
 
 
     let res = block(
-        breakable: breakable,
         width: auto,
         inset: (left: 1pt),
       )[
@@ -146,6 +144,7 @@
         outlined: true,
         // caption: "This is a " + supplement + " box",
       ),
+      breakable: breakable,
       radius: (top-left: 0.7pt,  bottom-left: 1pt),
       stroke: (x: 3pt + color, right: none),
       outset: 0.4%,
