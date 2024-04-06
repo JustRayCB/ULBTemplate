@@ -25,7 +25,7 @@
 
 // https://typst.app/universe/package/octique
 // #octique-inline("accessibility-inset", color: green)
-#import "@preview/octique:0.1.0": octique-inline
+#import "@preview/octique:0.1.0": octique-inline, octique
 
 // https://typst.app/universe/package/codly
 #import "@preview/codly:0.2.0"
@@ -106,14 +106,14 @@
   kind: "proof",
   supplement: "Preuve",
   color: colorKind.proof,
-  icon: [#octique-inline("bookmark", color: colorKind.proof)]
+  icon: octique("bookmark", color: colorKind.proof)
 )
 
 #let example = borderBox.with(
   kind: "example",
   supplement: "Exemple",
   color: colorKind.example,
-  icon: [#octique-inline("flame", color: colorKind.example)]
+  icon: octique("flame", color: colorKind.example)
 )
 
 #let proposition = popup.with(
@@ -138,7 +138,7 @@
   kind: "remark",
   supplement: "Remarque",
   color: colorKind.remark,
-  icon: octique-inline("light-bulb", color: colorKind.remark)
+  icon: octique("light-bulb", color: colorKind.remark)
 
 )
 
