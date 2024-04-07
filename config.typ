@@ -93,13 +93,13 @@
 #let definition = popup.with(
   kind: "definition",
   supplement: "Définition",
-  color: purple,
+  color: colorKind.definition,
 )
 
 #let theorem = popup.with(
   kind: "theorem",
   supplement: "Théorème",
-  color: blue,
+  color: colorKind.theorem,
 )
 
 #let proof = borderBox.with(
@@ -119,19 +119,19 @@
 #let proposition = popup.with(
   kind: "proposition",
   supplement: "Proposition",
-  color: red,
+  color: colorKind.proposition,
 ) 
 
 #let corollary = popup.with(
   kind: "corollary",
   supplement: "Corollaire",
-  color: yellow,
+  color: colorKind.corollary,
 ) 
 
 #let lemma = popup.with(
   kind: "lemma",
   supplement: "Lemme",
-  color: aqua,
+  color: colorKind.lemma,
 ) 
 
 #let remark = borderBox.with(
@@ -145,7 +145,15 @@
 #let notation = popup.with(
   kind: "notation",
   supplement: "Notation",
-  color: purple,
+  color: colorKind.notation,
+)
+
+#let warning = borderBox.with(
+  kind: "warning",
+  supplement: "Attention",
+  color: red,
+  icon: octique("alert", color: red),
+  // outline: false,
 )
 
 // NoIndent function

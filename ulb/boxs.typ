@@ -120,8 +120,8 @@
       breakable: breakable,
       body,
     )],
-    above: 3em,
-    below: 3em,
+    above: 2em,
+    below: 2em,
   )
 
 }
@@ -133,6 +133,7 @@
   supplement: "Remarque",
   icon: emoji.pin,
   color: green,
+  outlined: true,
   breakable: true, 
 ) = {
 
@@ -230,7 +231,7 @@
         caption: caption,
       ),
       breakable: breakable,
-      radius: (top-left: 0pt,  bottom-left: 0pt),
+      radius: (top-left: 1pt,  bottom-left: 1pt),
       stroke: (x: 3pt + color, right: none),
       outset: 0.4%,
       above:2em,
