@@ -153,17 +153,22 @@
   // =========== End Header/Footer ==============
   // =========== Heading Formatting ==============
   set heading(numbering: "1.1")
+  show heading: i-figured.reset-counters.with(level: 1, extra-kinds: kinds)
+  show figure: i-figured.show-figure.with(extra-prefixes: extra-pref)
+  show math.equation: i-figured.show-equation
+
   show heading: it =>{
     let base = 22pt 
     set block(breakable: false)
     let below // The space below the heading
     if it.level == 1 {
+      pagebreak(weak: true ) // BUG: with for loop to reset kinds counters and i-figured reset
       set text(font: sans-font, size: base, weight: 700)
       for kind in kinds + (figure, table, image) {
         counter(figure.where(kind: kind, outlined:true)).update(0)
       }
       below = 0.8em
-      pagebreak(weak: true)
+                            // The heading of chic is not displayed correctly
       block(it, below: below)
     }
     else{
@@ -255,14 +260,14 @@
 
   }
 
-  show figure.caption: it => {
-    let  splitted = it.kind.split("\"")
-    if splitted.len() >= 2{ // The kind of the figure is i-figured-"kind" so we want to remove the i-figured- part
-      let kind = splitted.at(1)
-      if kind in kinds {return}
-    }
-    it
-  }
+  // show figure.caption: it => {
+  //   let  splitted = it.kind.split("\"")
+  //   if splitted.len() >= 2{ // The kind of the figure is i-figured-"kind" so we want to remove the i-figured- part
+  //     let kind = splitted.at(1)
+  //     if kind in kinds {return}
+  //   }
+  //   it
+  // }
 
   show figure: it =>{
     let  splitted = it.kind.split("\"")
@@ -276,9 +281,6 @@
   }
 
 
-  show heading: i-figured.reset-counters.with(level: 1, extra-kinds: kinds)
-  show figure: i-figured.show-figure.with(extra-prefixes: extra-pref)
-  show math.equation: i-figured.show-equation
 
   body
 }
