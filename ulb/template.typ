@@ -224,7 +224,25 @@
   }
 
   show ref: it => {
-    if it.element != none and it.element.func() == block{
+    if it.element != none and it.element.has("child") and it.element.child.func() == block{
+      let my_block = it.element.child
+      let fig 
+      if my_block.has("body") and my_block.body.func() == figure {
+        fig = my_block.body
+      }
+      if fig != none {
+        let kind = fig.kind
+        let supplement = fig.supplement
+        if fig.outlined{
+          let figNb = context counter(figure.where(kind: kind, outlined:true)).at(it.element.location()).first()+1
+          let sectionNb = context (utils.getSectionNumber(location: it.element.location())).first()
+          return link(it.target)[#strong()[#supplement #sectionNb.#figNb]]
+        }else{
+          return link(it.target)[#strong()[#supplement]]
+        }
+      }
+    }
+    else if it.element != none and it.element.func() == block{
       // Here we want to refercence a block (which normally isn't possible)
       let fig
       let ele = it.element
@@ -260,24 +278,8 @@
 
   }
 
-  // show figure.caption: it => {
-  //   let  splitted = it.kind.split("\"")
-  //   if splitted.len() >= 2{ // The kind of the figure is i-figured-"kind" so we want to remove the i-figured- part
-  //     let kind = splitted.at(1)
-  //     if kind in kinds {return}
-  //   }
-  //   it
-  // }
-
   show figure: it =>{
-    let  splitted = it.kind.split("\"")
-    if splitted.len() >= 2{ // The kind of the figure is i-figured-"kind" so we want to remove the i-figured- part
-      let kind = splitted.at(1)
-      if kind in kinds {
-        return [#set block(breakable: true); #it]
-      }
-    }
-    it
+    return [#set block(breakable: true); #it]
   }
 
 

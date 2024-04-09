@@ -105,7 +105,8 @@
       #current_grid
     ]]
   }
-  return block(
+  show figure.caption: none
+  block(
     figure(
       kind: kind,
       caption: [#caption],
@@ -221,7 +222,7 @@
           content-block(body)
         )
       ] // block end
-
+    show figure.caption: none
     block(
       figure(
         res,
