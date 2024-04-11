@@ -283,6 +283,14 @@
     return [#set block(breakable: true); #it]
   }
 
+  // Don't know if it is realy useful
+  /* show terms.item: it => pad(left: First_line_indent, {
+    let term = strong(it.term)
+    h(-First_line_indent)
+    term
+    h(0.6em, weak: true)
+    it.description
+  }) */
 
 
   body
