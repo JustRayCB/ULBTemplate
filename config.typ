@@ -160,13 +160,13 @@
 )
 
 // NoIndent function
-#let noi() =  {
+#let noindent() =  {
     h(-fil)
 
 }
 
 // Indent function
-#let i() = {
+#let indent() = {
     h(fil) // Different behaviour while indenting at start position of a line
 }
 
