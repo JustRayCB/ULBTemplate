@@ -1,4 +1,0 @@
-[dependencies]
-showybox = {ref =  "@preview/showybox", version="2.0.1"}
-chic = {ref =  "@preview/chic-hdr", version="0.4.0"}
-outrageous = {ref =  "@preview/outrageous", version="0.1.0"}
