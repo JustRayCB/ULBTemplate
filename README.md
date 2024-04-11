@@ -10,7 +10,25 @@ You can install it using this command.
 
 - sudo apt install imagemagick
 
-# Usage:
+# Getting Started:
+
+To use this template juste start with a `main.typ` file with this basic configuration:
+
+```typst
+#import "config.typ": *
+
+#show: template
+
+= Introduction <intro>
+#lorem(50)
+
+
+// #bibliography("./bibliography.bib")
+```
+
+If you want to add new boxes or change the cover-page see the `config.typ` file
+
+# Makefile usage:
 
 Right now all the emoji's are not rendered on pdf so you can compile the file in png then
 convert it to pdf
