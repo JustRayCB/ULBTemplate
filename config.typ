@@ -34,6 +34,7 @@
 
 #let fil = 20pt
 #let margins = 2.5cm
+// TODO: remove extra-pref and use states instead of arrays only
 #let kinds = (
   "definition", 
   "theorem",
@@ -55,7 +56,8 @@
   corollary: "cor:",
   lemma: "lem:", 
   remark: "rem:", 
-  notation: "not:"
+  notation: "not:",
+  warning: "warn:"
 )
 
 #let colorKind = (
@@ -63,11 +65,12 @@
   theorem: blue,
   proof: navy,
   example: orange,
-  proposition: red,
+  proposition: maroon,
   corollary: yellow,
   lemma: aqua,
   remark: lime,
-  notation: purple
+  notation: purple,
+  warning: red
 )
 
 
@@ -151,8 +154,8 @@
 #let warning = borderBox.with(
   kind: "warning",
   supplement: "Attention",
-  color: red,
-  icon: octique("alert", color: red),
+  color: colorKind.warning,
+  icon: octique("alert", color: colorKind.warning),
   // outline: false,
 )
 
