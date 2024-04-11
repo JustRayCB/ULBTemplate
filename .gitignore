@@ -1,11 +1,3 @@
-# Ignore everything
-*
-
-# but not these files...
-!ulb/
-!Makefile
-!README.md
-!config.typ
-
-
+svg
 ulb/assets
+main.pdf
