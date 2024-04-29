@@ -77,20 +77,28 @@
 
 
 #let template = Template.with(
-    Title: "Rayan's Template",
-    UE: "UE",
-    Subject: "Sujet",
-    Authors: (
-      "Rayan Contuliano Bravo",
+  title: [Template Rapport Scientifique],
+  abstract: [Le résumé (80-100 mots) est conçu pour donner
+    au lecteur une vue générale du contenu de l’article.
+  ],
+  authors: (
+    (
+      name: "Martin Haug",
+      // department: [Co-Founder],
+      // organization: [Typst GmbH],
+      // location: [Berlin, Germany],
+      // email: "haug@typst.app"
     ),
-    Teachers: (
-        "M. Name",
+    (
+      name: "Laurenz Mädje",
+      // department: [Co-Founder],
+      // organization: [Typst GmbH],
+      // location: [Berlin, Germany],
+      // email: "maedje@typst.app"
     ),
-    TOC: false,
-    FTOC: false,
-    First_line_indent: fil,
-    kinds: kinds,
-    extra-pref: extra-pref,
+  ),
+  // index-terms: ("Scientific writing", "Typesetting", "Document creation", "Syntax"),
+  bibliography: bibliography("bibliography.bib"),
 )
 
 #let definition = popup.with(

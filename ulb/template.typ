@@ -1,298 +1,197 @@
 #import "@preview/chic-hdr:0.4.0" // Library for headers and footers
-#import "@preview/outrageous:0.1.0" // Library for TOC formatting
-#import "@preview/linguify:0.3.1" // Library for language support
-#import "@preview/i-figured:0.2.4"
-#import "utils.typ"
+// Workaround for the lack of an `std` scope.
+#let std-bibliography = bibliography
 
+// This function gets your whole document as its `body` and formats
+// it as an article in the style of the IEEE.
 #let Template(
-  Title: "Titre",
-  UE: "Unité d'enseignement",
-  Subject: "Sujet",
-  Authors: (),
-  Teachers: (),
-  Date: datetime.today().display("[day] [month repr:long] [year]"),
-  TOC: true,
-  FTOC: true,
-  Depth: 5,
-  First_line_indent: 20pt,
-  kinds: (),
-  extra-pref: (),
-  body,
+  // The paper's title.
+  title: [Paper Title],
+  ue: [Unité d'Enseignement],
+  super: [John Doe],
+
+  // An array of authors. For each author you can specify a name,
+  // department, organization, location, and email. Everything but
+  // but the name is optional.
+  authors: (),
+
+  // The paper's abstract. Can be omitted if you don't have one.
+  abstract: none,
+
+  // A list of index terms to display after the abstract.
+  index-terms: (),
+
+  // The article's paper size. Also affects the margins.
+  paper-size: "us-letter",
+
+  // The result of a call to the `bibliography` function or `none`.
+  bibliography: none,
+
+  // The paper's content.
+  body
 ) = {
-  // Set the document's basic properties.
-  // ===========Cover page=============
-  set document(author: Authors, title: Title)
-  let banner= "logos/banner.png"
-  let logo = "logos/logo.jpg"
-  let sceau = "logos/sceau.png"
-  // Save heading and body font families in variables.
-  let body-font = "Linux Libertine"
-  let sans-font = "Inria Sans"
+  // Set document metadata.
+  set document(title: title, author: authors.map(author => author.name))
 
-  set page(background: image(sceau, width: 100%, height: 100%))
-  align(right, image(logo, width: 26%))
+  // Set the body font.
+  set text(font: "STIX Two Text", size: 10pt)
 
-  // Set body font family.
-  set text(font: body-font, lang: "fr", 12pt)
-
-  v(9fr)
-
-  // ===========Date and Title=============
-  let lang_data = toml("lang.toml")
-  linguify.linguify_set_database(lang_data)
-  let (day, month, year) = Date.split(" ")
-  let month = linguify.linguify(month) // Translate the month to French
-  text(1.1em)[#day #month #year] 
-
-  v(1.2em, weak: true)
-  text(font: sans-font, 2em, weight: 700, Title)
-  // ===========End Date and Title=============
-
-
-  // Authors
-  stack(
-    dir: ltr,
-    spacing: 40%,
-    pad(
-      top: 0.7em,
-      // right: 20%,
-      grid(
-        columns: 1,// (1fr,),  // * calc.min(3, authors.len()),
-        gutter: 1.5em,
-        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Étudiants:"),
-        ..Authors.map(author => align(start, smallcaps(author))),
-      ),
-    ), 
-    pad(
-      top: 0.7em,
-      // right: 20%,
-      grid(
-        columns: 1, //(1fr,),  // * calc.min(3, authors.len()),
-        gutter: 1.5em,
-        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Professeurs:"),
-        ..Teachers.map(teacher => align(start, smallcaps(teacher))),
-      ),
-    )
-    )
-
-
-  v(2.4fr)
-  pagebreak()
-  set page(background: none)
-  // ===========End Cover page=============
-  // =========== Start TOC ==============
-
-
-  show outline.entry: outrageous.show-entry.with(
-    font-weight: ("bold", auto),
-    font-style: (auto,),
-    vspace: (12pt, none),
-    font: ("Noto Sans", auto),
-    fill: (none, repeat[~~.]),
-    fill-right-pad: .4cm,
-    fill-align: true,
-    body-transform: none,
-    page-transform: none,
-  )
-
-  if TOC{
-    set page(numbering: "I")
-    counter(page).update(1)
-    outline(indent: auto, depth: Depth)
-    pagebreak(weak: true)
-    if FTOC{
-      /*
-      * TOC of figures
-      */
-      {
-        // reset entry style to default
-        show outline.entry: outrageous.show-entry.with(
-          ..outrageous.presets.typst,
-          vspace: (12pt, none),
-          fill: (repeat[~~.], none),
-          fill-right-pad: 0.4cm,
-          fill-align: true,
-        )
-        show heading: set heading(outlined: true) // add the heading of the TOC of figures to the TOC
-        context {
-          for kind in kinds {
-            let all_figs = query(selector(figure.where(kind: kind, outlined:true))) // get all the figures of a kind
-            if all_figs.len() > 0 {
-              let supplement = all_figs.first().supplement
-              supplement = supplement + [s]
-              i-figured.outline(target-kind: kind, title: [Liste des #lower(supplement)])
-            }
-          }
-        }
-      }
+  // Configure the page.
+  set page(
+    numbering: "1",
+    paper: paper-size,
+    // The margins depend on the paper size.
+    margin: if paper-size == "a4" {
+      (x: 41.5pt, top: 80.51pt, bottom: 89.51pt)
+    } else {
+      (
+        x: (50pt / 216mm) * 100%,
+        top: (55pt / 279mm) * 100%,
+        bottom: (64pt / 279mm) * 100%,
+      )
     }
-    pagebreak(weak: true)
-
-  }
-  // =========== End TOC ==============
-
-  let headerDepth = 1 // The depth of the numbering. 1 for 1.1, 2 for 1.1.1, etc. It will check Section, Subsection, Subsubsection, etc.
-
-  // Start page numbering for real after TOC
-
-  // =========== Start Header/Footer ============== 
-  set page(numbering: "1")
-
-  let configChic = utils.configChicHdr(
-    headerLeft: banner,
-    headerRight: smallcaps([*#utils.placeCurrentSection(level: 1)*]), 
-    footerLeft: UE,
-    footerCenter: Subject
   )
   show: chic-hdr.chic.with(
     width: 100%,
-    ..configChic.values()
-  )
-  counter(page).update(1) // It has to be after. Don't ask me why
-
-  // =========== End Header/Footer ==============
-  // =========== Heading Formatting ==============
-  set heading(numbering: "1.1")
-  // TODO: REMOVE I-FIGURED DEPENDENCY for figures and headings
-  show heading: i-figured.reset-counters.with(level: 1, extra-kinds: kinds)
-  show figure: i-figured.show-figure.with(extra-prefixes: extra-pref)
-  show math.equation: i-figured.show-equation
-
-  show heading: it =>{
-    let base = 22pt 
-    set block(breakable: false)
-    let below // The space below the heading
-    if it.level == 1 {
-      pagebreak(weak: true ) // BUG: with for loop to reset kinds counters and i-figured reset
-      set text(font: sans-font, size: base, weight: 700)
-      for kind in kinds + (figure, table, image) {
-        counter(figure.where(kind: kind, outlined:true)).update(0)
-      }
-      below = 0.8em
-                            // The heading of chic is not displayed correctly
-      block(it, below: below)
-    }
-    else{
-      below = 0.5em
-      block(it, below: below, above: 1.5em)
-    }
-    // FIX: Temporary fix for the first line indent problem
-    text()[#v(below, weak: true)];text()[#h(0em)];parbreak()
-
-  }
-  // =========== End Heading Formatting ==============
-
-
-  // Main body.
-  // The first line indent can create weird behaviour with the heading as the heading is treated as a paragraph
-  // The default behaviour does not have this problem. But if you use another show method, you have to set the first-line-indent to 0pt in the heading
-  set par(justify: true, first-line-indent: First_line_indent)
-
-  show link: it => {
-    if it.has("dest") and type(it.at("dest")) == label {
-      // If the link is a reference to a figure, we want to display it bold
-      return strong()[#it]
-    }
-    underline(text(rgb(0, 76, 146), it))
-  }
-
-  // =========== Bibliography ==============
-  configChic = utils.configChicHdr(
-    headerLeft: banner,
-    headerRight: smallcaps([*Bibliographie*]),
-    footerLeft: UE,
-    footerCenter: Subject
-  )
-
-  show bibliography: it => {
-    pagebreak(weak: true)
-    show: chic-hdr.chic.with(
-      width:100%,
-      ..configChic.values()
-  )
-  [#it]
-  };
-  // =========== End Bibliography ==============
-
-  show highlight: it =>{
-    box(
-        // More prettier way to highlight text
-        fill: it.fill, inset: (x: 3pt, y: 0pt),
-        outset: (y: 3pt),
-        radius: 2pt,
-        it.body
+    chic-hdr.chic-header(
+      left-side: smallcaps([#ue]),
+      right-side: chic-hdr.chic-page-number()
+    ),
+    chic-hdr.chic-footer(
+      left-side: text(size: 8pt, [#smallcaps([Superviseur: ]) #super]),
     )
-  }
+)
 
+
+  // Configure equation numbering and spacing.
+  set math.equation(numbering: "(1)")
+  show math.equation: set block(spacing: 0.65em)
+
+  // Configure appearance of equation references
   show ref: it => {
-    if it.element != none and it.element.has("child") and it.element.child.func() == block{
-      let my_block = it.element.child
-      let fig 
-      if my_block.has("body") and my_block.body.func() == figure {
-        fig = my_block.body
-      }
-      if fig != none {
-        let kind = fig.kind
-        let supplement = fig.supplement
-        if fig.outlined{
-          let figNb = context counter(figure.where(kind: kind, outlined:true)).at(it.element.location()).first()+1
-          let sectionNb = context (utils.getSectionNumber(location: it.element.location())).first()
-          return link(it.target)[#strong()[#supplement #sectionNb.#figNb]]
-        }else{
-          return link(it.target)[#strong()[#supplement]]
-        }
-      }
+    if it.element != none and it.element.func() == math.equation {
+      // Override equation references.
+      link(it.element.location(), numbering(
+        it.element.numbering,
+        ..counter(math.equation).at(it.element.location())
+      ))
+    } else {
+      // Other references as usual.
+      it
     }
-    else if it.element != none and it.element.func() == block{
-      // Here we want to refercence a block (which normally isn't possible)
-      let fig
-      let ele = it.element
-      if ele.has("body") and ele.body.func() == figure {
-        // We juste want to ref the blocks that contains a figure
-        fig = ele.body
-      }
-      if fig != none {
-        let kind = fig.kind
-        let supplement = fig.supplement
-        // +1 because we want the counter for this figure not the one before
-        if fig.outlined {
-          let figNb = context counter(figure.where(kind: kind, outlined:true)).at(ele.location()).first()+1
-          let sectionNb = context (utils.getSectionNumber(location: ele.location())).first()
-          return link(ele.label)[#strong()[#supplement #sectionNb.#figNb]]
-        }else{
-          return link(ele.label)[#strong()[#supplement]]
-        }
-      }
-    }else if it.element != none and it.element.func() == figure{
-      let fig = it.element
-      let kind = fig.kind
-      let supplement = fig.supplement
-      if fig.outlined {
-        let figNb = context counter(figure.where(kind: kind, outlined:true)).at(it.location()).first()
-        let sectionNb = context (utils.getSectionNumber(location: fig.location())).at(0)
-        return link(it.target)[#strong()[#supplement #sectionNb.#figNb]]
-      }else{
-        return link(it.target)[#strong()[#supplement]]
-      }
-    }
-    strong()[#it]
-
   }
 
-  show figure: it =>{
-    return [#set block(breakable: true); #it]
+  // Configure lists.
+  set enum(indent: 10pt, body-indent: 9pt)
+  set list(indent: 10pt, body-indent: 9pt)
+
+  // Configure headings.
+  set heading(numbering: "I.A.1.")
+  show heading: it => locate(loc => {
+    // Find out the final number of the heading counter.
+    let levels = counter(heading).at(loc)
+    let deepest = if levels != () {
+      levels.last()
+    } else {
+      1
+    }
+
+    set text(10pt, weight: 400)
+    if it.level == 1 [
+      // First-level headings are centered smallcaps.
+      // We don't want to number of the acknowledgment section.
+      #let is-ack = it.body in ([Acknowledgment], [Acknowledgement])
+      #set align(center)
+      #set text(if is-ack { 10pt } else { 12pt })
+      #show: smallcaps
+      #v(20pt, weak: true)
+      #if it.numbering != none and not is-ack {
+        numbering("I.", deepest)
+        h(7pt, weak: true)
+      }
+      #it.body
+      #v(13.75pt, weak: true)
+    ] else if it.level == 2 [
+      // Second-level headings are run-ins.
+      #set par(first-line-indent: 0pt)
+      #set text(style: "italic")
+      #v(10pt, weak: true)
+      #if it.numbering != none {
+        numbering("A.", deepest)
+        h(7pt, weak: true)
+      }
+      #it.body
+      #v(10pt, weak: true)
+    ] else [
+      // Third level headings are run-ins too, but different.
+      #if it.level == 3 {
+        numbering("1)", deepest)
+        [ ]
+      }
+      _#(it.body):_
+    ]
+  })
+
+  // Display the paper's title.
+  v(3pt, weak: true)
+  align(center, text(20pt, title))
+  v(8.35mm, weak: true)
+
+  // Display the authors list.
+  for i in range(calc.ceil(authors.len() / 3)) {
+    let end = calc.min((i + 1) * 3, authors.len())
+    let is-last = authors.len() == end
+    let slice = authors.slice(i * 3, end)
+    grid(
+      columns: slice.len() * (1fr,),
+      gutter: 12pt,
+      ..slice.map(author => align(center, {
+        text(12pt, author.name)
+        if "department" in author [
+          \ #emph(author.department)
+        ]
+        if "organization" in author [
+          \ #emph(author.organization)
+        ]
+        if "location" in author [
+          \ #author.location
+        ]
+        if "email" in author [
+          \ #link("mailto:" + author.email)
+        ]
+      }))
+    )
+
+    if not is-last {
+      v(16pt, weak: true)
+    }
   }
+  v(40pt, weak: true)
 
-  // Don't know if it is realy useful
-  /* show terms.item: it => pad(left: First_line_indent, {
-    let term = strong(it.term)
-    h(-First_line_indent)
-    term
-    h(0.6em, weak: true)
-    it.description
-  }) */
+  // Start two column mode and configure paragraph properties.
+  show: columns.with(2, gutter: 12pt)
+  set par(justify: true, first-line-indent: 1em)
+  show par: set block(spacing: 0.65em)
 
+  // Display abstract and index terms.
+  if abstract != none [
+    #set text(weight: 700)
+    #h(1em) _Résumé_---#abstract
 
+    #if index-terms != () [
+      #h(1em)_Index terms_---#index-terms.join(", ")
+    ]
+    #v(2pt)
+  ]
+
+  // Display the paper's contents.
   body
+
+  // Display bibliography.
+  if bibliography != none {
+    show std-bibliography: set text(8pt)
+    set std-bibliography(title: text(10pt)[References], style: "ieee")
+    bibliography
+  }
 }
 
