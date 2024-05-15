@@ -1,6 +1,6 @@
 #import "@preview/chic-hdr:0.4.0" // Library for headers and footers
 // Workaround for the lack of an `std` scope.
-#let std-bibliography = bibliography
+// #let std-bibliography = bibliography
 
 // This function gets your whole document as its `body` and formats
 // it as an article in the style of the IEEE.
@@ -24,9 +24,6 @@
   // The article's paper size. Also affects the margins.
   paper-size: "us-letter",
 
-  // The result of a call to the `bibliography` function or `none`.
-  bibliography: none,
-
   // The paper's content.
   body
 ) = {
@@ -34,7 +31,7 @@
   set document(title: title, author: authors.map(author => author.name))
 
   // Set the body font.
-  set text(font: "STIX Two Text", size: 10pt)
+  set text(font: "STIX Two Text", lang: "fr", size: 10pt)
 
   // Configure the page.
   set page(
@@ -173,6 +170,7 @@
   set par(justify: true, first-line-indent: 1em)
   show par: set block(spacing: 0.65em)
 
+
   // Display abstract and index terms.
   if abstract != none [
     #set text(weight: 700)
@@ -184,14 +182,13 @@
     #v(2pt)
   ]
 
+  set bibliography(title: text(10pt)[Références], style: "ieee")
+  show bibliography: it => {
+    set text(8pt)
+    [#it]
+  };
+
   // Display the paper's contents.
   body
-
-  // Display bibliography.
-  if bibliography != none {
-    show std-bibliography: set text(8pt)
-    set std-bibliography(title: text(10pt)[References], style: "ieee")
-    bibliography
-  }
 }
 

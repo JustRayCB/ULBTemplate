@@ -32,7 +32,7 @@
 
 
 
-#let fil = 20pt
+#let fil = 1em
 #let margins = 2.5cm
 // TODO: remove extra-pref and use states instead of arrays only
 #let kinds = (
@@ -98,7 +98,6 @@
     ),
   ),
   // index-terms: ("Scientific writing", "Typesetting", "Document creation", "Syntax"),
-  bibliography: bibliography("bibliography.bib"),
 )
 
 #let definition = popup.with(
