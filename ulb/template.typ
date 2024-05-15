@@ -283,6 +283,9 @@
     return [#set block(breakable: true); #it]
   }
 
+  set list(indent: 10pt)
+  set enum(indent: 10pt)
+
   // Don't know if it is realy useful
   /* show terms.item: it => pad(left: First_line_indent, {
     let term = strong(it.term)
