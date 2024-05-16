@@ -2,6 +2,7 @@
 #import "@preview/outrageous:0.1.0" // Library for TOC formatting
 #import "@preview/linguify:0.3.1" // Library for language support
 #import "@preview/i-figured:0.2.4"
+#import "@preview/equate:0.1.0": equate
 #import "utils.typ"
 
 #let Template(
@@ -156,7 +157,11 @@
   // TODO: REMOVE I-FIGURED DEPENDENCY for figures and headings
   show heading: i-figured.reset-counters.with(level: 1, extra-kinds: kinds)
   show figure: i-figured.show-figure.with(extra-prefixes: extra-pref)
-  show math.equation: i-figured.show-equation
+  show: equate.with(sub-numbering: false, number-mode: "label")
+  set math.equation(numbering: (..nums) => {
+    numbering("(1.1)", counter(heading).get().first(), ..nums)
+  })
+
 
   show heading: it =>{
     let base = 22pt 
@@ -192,6 +197,9 @@
     if it.has("dest") and type(it.at("dest")) == label {
       // If the link is a reference to a figure, we want to display it bold
       return strong()[#it]
+    }
+    else if it.has("dest") and type(it.at("dest")) == location {
+      return strong()[#it] // To link math equations
     }
     underline(text(rgb(0, 76, 146), it))
   }
@@ -266,13 +274,15 @@
     }else if it.element != none and it.element.func() == figure{
       let fig = it.element
       let kind = fig.kind
-      let supplement = fig.supplement
-      if fig.outlined {
-        let figNb = context counter(figure.where(kind: kind, outlined:true)).at(it.location()).first()
-        let sectionNb = context (utils.getSectionNumber(location: fig.location())).at(0)
-        return link(it.target)[#strong()[#supplement #sectionNb.#figNb]]
-      }else{
-        return link(it.target)[#strong()[#supplement]]
+      if kind in kinds{ // If the figure is in the list of kinds
+        let supplement = fig.supplement
+        if fig.outlined {
+          let figNb = context counter(figure.where(kind: kind, outlined:true)).at(it.location()).first()
+          let sectionNb = context (utils.getSectionNumber(location: fig.location())).at(0)
+          return link(it.target)[#strong()[#supplement #sectionNb.#figNb]]
+        }else{
+          return link(it.target)[#strong()[#supplement]]
+        }
       }
     }
     strong()[#it]
