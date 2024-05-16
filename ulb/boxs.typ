@@ -105,11 +105,11 @@
       #current_grid
     ]]
   }
-  show figure.caption: none
+  // show figure.caption: none
   block(
     figure(
       kind: kind,
-      caption: [#caption],
+      // caption: [#caption],
       supplement: supplement,
       outlined: outlined,
     )[#showybox(
@@ -222,14 +222,12 @@
           content-block(body)
         )
       ] // block end
-    show figure.caption: none
     block(
       figure(
         res,
         kind: kind,
         supplement: supplement,
         outlined: outlined,
-        caption: caption,
       ),
       breakable: breakable,
       radius: (top-left: 1pt,  bottom-left: 1pt),
