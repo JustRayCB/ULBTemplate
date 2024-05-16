@@ -28,6 +28,14 @@ To use this template juste start with a `main.typ` file with this basic configur
 
 If you want to add new boxes or change the cover-page see the `config.typ` file
 
+If you want to split the document in multiple files you can use the `#import` directive.
+
+```typst
+#include "introduction.typ"
+```
+
+and make sure to add the `#import "config.typ": *` in the new file.
+
 # Makefile usage:
 
 Right now all the emoji's are not rendered on pdf so you can compile the file in png then
@@ -40,3 +48,14 @@ make png
 
 > Note that you cannot select text inside the converted pdf or follow linkds.
 > This should be used to print out the pdf.
+
+# Issues:
+
+- The emojis are not rendered on the pdf file.
+- The captions of figures are not rendered inside a box.
+
+# TODO:
+
+- Fix issues
+- Remove i-figured dependency
+- Make the box kinds state
