@@ -105,11 +105,9 @@
       #current_grid
     ]]
   }
-  // show figure.caption: none
   block(
     figure(
       kind: kind,
-      // caption: [#caption],
       supplement: supplement,
       outlined: outlined,
     )[#showybox(
