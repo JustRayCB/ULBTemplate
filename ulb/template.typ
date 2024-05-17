@@ -205,21 +205,6 @@
   }
 
   // =========== Bibliography ==============
-  configChic = utils.configChicHdr(
-    headerLeft: banner,
-    headerRight: smallcaps([*Bibliographie*]),
-    footerLeft: UE,
-    footerCenter: Subject
-  )
-
-  show bibliography: it => {
-    pagebreak(weak: true)
-    show: chic-hdr.chic.with(
-      width:100%,
-      ..configChic.values()
-  )
-  [#it]
-  };
   // =========== End Bibliography ==============
 
   show highlight: it =>{

@@ -26,7 +26,14 @@
     } else if last-eligible  and  not next-on-current-page {
       numbering(last.numbering, ..counter(heading).at(last.location())) + [. ] + last.body
     }else {
-      " "
+      // If there is a next section on the current page but without numbering and has a body then return the body
+      if next != none and next.has("body") and type(next.body) == content{
+        next.body
+      }
+      else{
+        " "
+      }
+
     }
     return heading
   }
