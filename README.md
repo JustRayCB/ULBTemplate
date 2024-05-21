@@ -49,10 +49,20 @@ make png
 > Note that you cannot select text inside the converted pdf or follow linkds.
 > This should be used to print out the pdf.
 
+On the other hand, if you have typst svg-emoji installed locally, you could just add these two line
+in you `main.typ`:
+
+```typ
+/*  Only if you have it installed locally */
+#import "@local/svg-emoji:0.1.0": setup-emoji, github
+#show: setup-emoji
+```
+
 # Issues:
 
 - The emojis are not rendered on the pdf file.
 - The captions of figures are not rendered inside a box.
+- The ref of a figure of a section is not well written e.g fig 3.1 is ref as Fig1.
 
 # TODO:
 
