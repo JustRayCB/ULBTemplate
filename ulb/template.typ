@@ -207,15 +207,7 @@
   // =========== Bibliography ==============
   // =========== End Bibliography ==============
 
-  show highlight: it =>{
-    box(
-        // More prettier way to highlight text
-        fill: it.fill, inset: (x: 3pt, y: 0pt),
-        outset: (y: 3pt),
-        radius: 2pt,
-        it.body
-    )
-  }
+  set highlight(radius: 3pt)
 
   show ref: it => {
     if it.element != none and it.element.has("child") and it.element.child.func() == block{
