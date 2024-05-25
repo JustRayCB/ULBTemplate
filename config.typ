@@ -170,3 +170,7 @@
     h(fil) // Different behaviour while indenting at start position of a line
 }
 
+#let unnumbered(body) = {
+  set heading(numbering: none)
+  body
+}
