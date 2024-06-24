@@ -44,7 +44,7 @@
   "corollary",
   "lemma",
   "remark",
-  "notation"
+  "notation",
 )
 
 #let extra-pref = (
@@ -57,20 +57,20 @@
   lemma: "lem:", 
   remark: "rem:", 
   notation: "not:",
-  warning: "warn:"
+  warning: "warn:",
 )
 
 #let colorKind = (
   definition: teal,
   theorem: blue,
-  proof: navy,
-  example: orange,
+  proof: color.eastern,
+  example: black,
   proposition: maroon,
   corollary: yellow,
   lemma: aqua,
   remark: lime,
   notation: purple,
-  warning: red
+  warning: orange,
 )
 
 
