@@ -207,7 +207,7 @@
   // =========== Bibliography ==============
   // =========== End Bibliography ==============
 
-  set highlight(radius: 3pt)
+  set highlight(radius: 2pt)
 
   show ref: it => {
     if it.element != none and it.element.has("child") and it.element.child.func() == block{
