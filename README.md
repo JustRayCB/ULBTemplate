@@ -40,3 +40,10 @@ make png
 
 > Note that you cannot select text inside the converted pdf or follow linkds.
 > This should be used to print out the pdf.
+
+# TODO
+
+- Fix annexes
+- Supervisor only on first page
+- Fix Numbering of maths equations
+- Fix Numbering of figures
