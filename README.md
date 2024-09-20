@@ -69,3 +69,4 @@ in you `main.typ`:
 - Fix issues
 - Remove i-figured dependency
 - Make the box kinds state
+- Make it a local package
