@@ -78,5 +78,3 @@ in you `main.typ`:
 - `git remote add template "https://github.com/JustRayCB/ULBTemplate"`
 - `git fetch template`
 - `git merge template/master--allow-unrelated-histories`
-
-
