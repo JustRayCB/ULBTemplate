@@ -76,7 +76,7 @@ in you `main.typ`:
 # Pull from the template
 
 - `git remote add template "https://github.com/JustRayCB/ULBTemplate"`
-- `git fetch --all`
+- `git fetch template`
 - `git merge template/master--allow-unrelated-histories`
 
 
