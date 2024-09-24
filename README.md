@@ -49,7 +49,9 @@ make png
 > Note that you cannot select text inside the converted pdf or follow linkds.
 > This should be used to print out the pdf.
 
-On the other hand, if you have typst svg-emoji installed locally, you could just add these two line
+On the other hand, if you have typst
+[svg-emoji](https://github.com/polazarus/typst-svg-emoji)  installed locally,
+you could just add these two line
 in you `main.typ`:
 
 ```typ
@@ -70,3 +72,9 @@ in you `main.typ`:
 - Remove i-figured dependency
 - Make the box kinds state
 - Make it a local package
+
+# Pull from the template
+
+- `git remote add template "https://github.com/JustRayCB/ULBTemplate"`
+- `git fetch template`
+- `git merge template/master--allow-unrelated-histories`
