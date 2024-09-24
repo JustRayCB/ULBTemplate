@@ -64,13 +64,13 @@
   definition: teal,
   theorem: blue,
   proof: color.eastern,
-  example: black,
+  example: orange,
   proposition: maroon,
   corollary: yellow,
   lemma: aqua,
   remark: lime,
   notation: purple,
-  warning: orange,
+  warning: red,
 )
 
 
