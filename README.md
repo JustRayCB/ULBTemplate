@@ -50,6 +50,7 @@ and make sure to add the `#import "config.typ": *` in the new file.
 - Add a way to rapidly create code, graphs, automaton
 - clean code
 - Make it a local package
+- Add support for english (box, months, figures)
 
 # Pull from the template
 
