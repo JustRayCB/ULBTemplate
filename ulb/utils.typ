@@ -76,7 +76,7 @@
       footer: chic-hdr.chic-footer(
         left-side: footerLeft,
         center-side: footerCenter, 
-        right-side: counter(page).display("1"),
+        right-side: context {counter(page).display("1")},
       ),
       // gutter: 0.25em to reduce the space between the header and the separator
       // outset: 5pt to add space arout separator beyond the page margins

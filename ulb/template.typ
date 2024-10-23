@@ -23,11 +23,11 @@
   // Set the document's basic properties.
   // ===========Cover page=============
   set document(author: Authors, title: Title)
-  let banner= "logos/banner.png"
-  let logo = "logos/logo.jpg"
+  let banner = "logos/banner.png"
+  let logo = "logos/logo_text.png"
   let sceau = "logos/sceau.png"
   // Save heading and body font families in variables.
-  let body-font = "Linux Libertine"
+  let body-font = "Libertinus Serif"
   let sans-font = "Inria Sans"
 
   set page(background: image(sceau, width: 100%, height: 100%))
@@ -43,7 +43,7 @@
   linguify.linguify_set_database(lang_data)
   let (day, month, year) = Date.split(" ")
   let month = linguify.linguify(month) // Translate the month to French
-  text(1.1em)[#day #month #year] 
+  text(1.1em)[#day #month #year]
 
   v(1.2em, weak: true)
   text(font: sans-font, 2em, weight: 700, Title)
@@ -60,21 +60,21 @@
       grid(
         columns: 1,// (1fr,),  // * calc.min(3, authors.len()),
         gutter: 1.5em,
-        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Étudiants:"),
+        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Students:"),
         ..Authors.map(author => align(start, smallcaps(author))),
       ),
-    ), 
+    ),
     pad(
       top: 0.7em,
       // right: 20%,
       grid(
         columns: 1, //(1fr,),  // * calc.min(3, authors.len()),
         gutter: 1.5em,
-        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Professeurs:"),
+        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Teachers:"),
         ..Teachers.map(teacher => align(start, smallcaps(teacher))),
       ),
-    )
-    )
+    ),
+  )
 
 
   v(2.4fr)
@@ -96,12 +96,12 @@
     page-transform: none,
   )
 
-  if TOC{
+  if TOC {
     set page(numbering: "I")
     counter(page).update(1)
     outline(indent: auto, depth: Depth)
     pagebreak(weak: true)
-    if FTOC{
+    if FTOC {
       /*
       * TOC of figures
       */
@@ -136,18 +136,18 @@
 
   // Start page numbering for real after TOC
 
-  // =========== Start Header/Footer ============== 
+  // =========== Start Header/Footer ==============
   set page(numbering: "1")
 
   let configChic = utils.configChicHdr(
     headerLeft: banner,
-    headerRight: smallcaps([*#utils.placeCurrentSection(level: 1)*]), 
+    headerRight: smallcaps(text(font: sans-font)[*#utils.placeCurrentSection(level: 1)*]),
     footerLeft: UE,
-    footerCenter: Subject
+    footerCenter: Subject,
   )
   show: chic-hdr.chic.with(
     width: 100%,
-    ..configChic.values()
+    ..configChic.values(),
   )
   counter(page).update(1) // It has to be after. Don't ask me why
 
@@ -163,26 +163,27 @@
   })
 
 
-  show heading: it =>{
-    let base = 22pt 
+  show heading: it => {
+    let base = 22pt
     set block(breakable: false)
     let below // The space below the heading
     if it.level == 1 {
-      pagebreak(weak: true ) // BUG: with for loop to reset kinds counters and i-figured reset
+      pagebreak(weak: true) // BUG: with for loop to reset kinds counters and i-figured reset
       set text(font: sans-font, size: base, weight: 700)
       for kind in kinds + (figure, table, image) {
-        counter(figure.where(kind: kind, outlined:true)).update(0)
+        counter(figure.where(kind: kind, outlined: true)).update(0)
       }
       below = 0.8em
-                            // The heading of chic is not displayed correctly
+      // The heading of chic is not displayed correctly
       block(it, below: below)
-    }
-    else{
+    } else {
       below = 0.5em
       block(it, below: below, above: 1.5em)
     }
     // FIX: Temporary fix for the first line indent problem
-    text()[#v(below, weak: true)];text()[#h(0em)];parbreak()
+    text()[#v(below, weak: true)]
+    text()[#h(0em)]
+    parbreak()
 
   }
   // =========== End Heading Formatting ==============
@@ -197,8 +198,7 @@
     if it.has("dest") and type(it.at("dest")) == label {
       // If the link is a reference to a figure, we want to display it bold
       return strong()[#it]
-    }
-    else if it.has("dest") and type(it.at("dest")) == location {
+    } else if it.has("dest") and type(it.at("dest")) == location {
       return strong()[#it] // To link math equations
     }
     underline(text(rgb(0, 76, 146), it))
@@ -210,25 +210,26 @@
   set highlight(radius: 2pt)
 
   show ref: it => {
-    if it.element != none and it.element.has("child") and it.element.child.func() == block{
+    if it.element != none and it.element.has("child") and it.element.child.func() == block {
       let my_block = it.element.child
-      let fig 
+      let fig
       if my_block.has("body") and my_block.body.func() == figure {
         fig = my_block.body
       }
       if fig != none {
         let kind = fig.kind
         let supplement = fig.supplement
-        if fig.outlined{
-          let figNb = context counter(figure.where(kind: kind, outlined:true)).at(it.element.location()).first()+1
+        if fig.outlined {
+          let figNb = context counter(figure.where(kind: kind, outlined: true))
+            .at(it.element.location())
+            .first() + 1
           let sectionNb = context (utils.getSectionNumber(location: it.element.location())).first()
           return link(it.target)[#strong()[#supplement #sectionNb.#figNb]]
-        }else{
+        } else {
           return link(it.target)[#strong()[#supplement]]
         }
       }
-    }
-    else if it.element != none and it.element.func() == block{
+    } else if it.element != none and it.element.func() == block {
       // Here we want to refercence a block (which normally isn't possible)
       let fig
       let ele = it.element
@@ -241,23 +242,28 @@
         let supplement = fig.supplement
         // +1 because we want the counter for this figure not the one before
         if fig.outlined {
-          let figNb = context counter(figure.where(kind: kind, outlined:true)).at(ele.location()).first()+1
+          let figNb = context counter(figure.where(kind: kind, outlined: true))
+            .at(ele.location())
+            .first() + 1
           let sectionNb = context (utils.getSectionNumber(location: ele.location())).first()
           return link(ele.label)[#strong()[#supplement #sectionNb.#figNb]]
-        }else{
+        } else {
           return link(ele.label)[#strong()[#supplement]]
         }
       }
-    }else if it.element != none and it.element.func() == figure{
+    } else if it.element != none and it.element.func() == figure {
       let fig = it.element
       let kind = fig.kind
-      if kind in kinds{ // If the figure is in the list of kinds
+      if kind in kinds {
+        // If the figure is in the list of kinds
         let supplement = fig.supplement
         if fig.outlined {
-          let figNb = context counter(figure.where(kind: kind, outlined:true)).at(it.location()).first()
+          let figNb = context counter(figure.where(kind: kind, outlined: true))
+            .at(it.location())
+            .first()
           let sectionNb = context (utils.getSectionNumber(location: fig.location())).at(0)
           return link(it.target)[#strong()[#supplement #sectionNb.#figNb]]
-        }else{
+        } else {
           return link(it.target)[#strong()[#supplement]]
         }
       }
@@ -266,7 +272,7 @@
 
   }
 
-  show figure: it =>{
+  show figure: it => {
     return [#set block(breakable: true); #it]
   }
 
@@ -275,14 +281,14 @@
 
   // Don't know if it is realy useful
   /* show terms.item: it => pad(left: First_line_indent, {
-    let term = strong(it.term)
-    h(-First_line_indent)
-    term
-    h(0.6em, weak: true)
-    it.description
+  let term = strong(it.term)
+  h(-First_line_indent)
+  term
+  h(0.6em, weak: true)
+  it.description
   }) */
 
-    
+
   show raw.where(block: false): box.with(
     fill: luma(240),
     inset: (x: 3pt, y: 0pt),
