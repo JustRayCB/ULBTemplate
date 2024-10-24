@@ -1,4 +1,4 @@
-Template to take notes, summarize class or scientific report.
+Template to take notes, summarize class or scientific report. You can directly click on the button "Use this template" as it will create a repo.
 
 This template is based from Thomas'Nifty Template on Typst's Discord server.
 This is a template for Scientifique Report and class resume at ULB.
