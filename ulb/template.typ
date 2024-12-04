@@ -31,10 +31,10 @@
   let sans-font = "Inria Sans"
 
   set page(background: image(sceau, width: 100%, height: 100%))
-  align(right, image(logo, width: 26%))
+  align(left, image(logo, width: 70%))
 
   // Set body font family.
-  set text(font: body-font, lang: "fr", 12pt)
+  set text(font: body-font, lang: "en", 12pt)
 
   v(9fr)
 
@@ -42,7 +42,7 @@
   let lang_data = toml("lang.toml")
   linguify.linguify_set_database(lang_data)
   let (day, month, year) = Date.split(" ")
-  let month = linguify.linguify(month) // Translate the month to French
+  //let month = linguify.linguify(month) // Translate the month to French
   text(1.1em)[#day #month #year]
 
   v(1.2em, weak: true)
