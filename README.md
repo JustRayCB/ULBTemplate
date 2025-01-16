@@ -51,6 +51,7 @@ and make sure to add the `#import "config.typ": *` in the new file.
 - clean code
 - Make it a local package
 - Add support for english (box, months, figures)
+- Tables of figures not working anymore
 
 # Pull from the template
 
