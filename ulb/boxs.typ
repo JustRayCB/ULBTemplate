@@ -6,7 +6,7 @@
 //   supplement: "Définition", numbering: "1.1",
 //   outlined: true
 // )<salut>
-#import "@preview/showybox:2.0.1": showybox
+#import "@preview/showybox:2.0.3": showybox
 #import "utils.typ": getSectionNumber
 
 
@@ -110,7 +110,9 @@
       kind: kind,
       supplement: supplement,
       outlined: outlined,
-    )[#showybox(
+    )[
+      #set par(justify: true, first-line-indent: 0pt)
+      #showybox(
       title-style: titleStyle,
       frame: frame,
       // title: header-block(title, pic),
@@ -214,6 +216,7 @@
     let res = block(
         width: auto,
       )[
+        #set par(justify: true, first-line-indent: 0pt)
         #set align(start)
         #stack(dir: ttb,
           header-block(title, pic),
