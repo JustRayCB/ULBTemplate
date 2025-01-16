@@ -34,6 +34,7 @@ and make sure to add the `#import "config.typ": *` in the new file.
 
 - The captions of figures are not rendered inside a box.
 - The ref of a figure of a section is not well written e.g fig 3.1 is ref as Fig1.
+- Tables of figures not working anymore
 
 # TODO:
 
@@ -51,7 +52,6 @@ and make sure to add the `#import "config.typ": *` in the new file.
 - clean code
 - Make it a local package
 - Add support for english (box, months, figures)
-- Tables of figures not working anymore
 
 # Pull from the template
 
