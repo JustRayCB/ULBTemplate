@@ -21,7 +21,7 @@ To use this template juste start with a `main.typ` file with this basic configur
 
 If you want to add new boxes or change the cover-page see the `config.typ` file
 
-If you want to split the document in multiple files you can use the `#import` directive.
+If you want to split the document in multiple files you can use the `#include` directive in the `main.typ` file.
 
 ```typst
 #include "introduction.typ"
