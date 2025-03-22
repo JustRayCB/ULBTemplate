@@ -15,13 +15,14 @@
 * Create a box for the header that contains a grid -> symbol | Title
 * Create another box(block?) for the body
 */
+  outlined: true,
+  breakable: true, 
 
 #let popup(
   body,
   ..arguments,
   kind: "definition",
   supplement: "Définition",
-  icon: emoji.hi,
   color: blue,
   breakable: false,
 ) = {
@@ -53,15 +54,7 @@
   }
 
   let outlined = if caption != none {true} else {false}
-  let pic
   let size = 2em
-  if icon == none {
-    pic = none
-  } else if type(icon) == str{
-    pic = text(size: size)[#image(icon, fit: "contain")] 
-  }else{
-    pic = text(size: size)[#icon] 
-  }
   // Title Style
   let titleStyle = (
     boxed-style: (
@@ -80,31 +73,6 @@
       radius: (top-left: 10pt, bottom-right: 10pt, rest: 0pt)
   )
 
-  let header-block(header, pic) = {
-    let current_grid = if pic == none {
-      grid(
-        columns: 1,
-        align: (left),
-        inset: 0.4em,
-        // stroke: 1pt,
-        header
-      )
-    } else {
-      grid(
-        columns: (2em, 2fr),
-        align: (horizon, left + horizon),
-        gutter: 0.5em,
-        pic,
-        header
-      )
-    }
-    return [#box(
-      width: 100%,
-      inset: 5pt,
-    )[
-      #current_grid
-    ]]
-  }
   block(
     figure(
       kind: kind,
@@ -115,7 +83,6 @@
       #showybox(
       title-style: titleStyle,
       frame: frame,
-      // title: header-block(title, pic),
       title: title,
       footer: footer,
       breakable: breakable,
