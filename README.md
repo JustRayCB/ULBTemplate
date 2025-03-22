@@ -19,7 +19,7 @@ To use this template juste start with a `main.typ` file with this basic configur
 // #bibliography("./bibliography.bib")
 ```
 
-If you want to add new boxes or change the text on the cover-page see the `config.typ` file
+**Before starting writing** take a look at the `config.typ` file to customize the front-page and boxes
 
 If you want to split the document in multiple files you can use the `#include` directive in the `main.typ` file.
 
@@ -62,6 +62,12 @@ If you don't want any title, you can juste write `#definition[Content]<def:name1
 In a similar way you can forgot about the title just like this `#example[Content]`
 
 You can make a reference to the boxes with `@def:name0` (wich is the label inside the `<>`)
+
+If you want to change the parameters **on the fly** use
+
+```typst
+#warning(breakable: false, supplement: "Hey", color: brown, icon: emoji.face.cry)[This is a new Warning][Content]
+```
 
 # Issues:
 

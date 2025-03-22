@@ -3,23 +3,6 @@
 #import "ulb/template.typ": Template
 #import "ulb/boxs.typ": popup, borderBox
 
-// https://typst.app/universe/package/gentle-clues
-/*
-* abstract, info, question, memo, task, idea, tip, quote, success, warning, error, example.
-*/
-// #box([#info(title: "Bonjour")[Salut]<salut>]) to fix the non indent text after
-#import "@preview/gentle-clues:0.7.1"
-
-// https://typst.app/universe/package/note-me
-/*
-* node, tip, important, warning, caution, todo
-*/
-#import "@preview/note-me:0.2.1"
-
-
-// https://typst.app/universe/package/i-figured
-#import "@preview/i-figured:0.2.4"
-
 // https://typst.app/universe/package/linguify
 #import "@preview/linguify:0.4.2"
 
@@ -28,11 +11,11 @@
 #import "@preview/octique:0.1.0": octique-inline, octique
 
 // https://typst.app/universe/package/codly
-#import "@preview/codly:0.2.0"
+#import "@preview/codly:1.2.0"
 
 
 
-#let fil = 20pt
+#let fil = 20pt // First line indent
 #let margins = 2.5cm
 // TODO: remove extra-pref and use states instead of arrays only
 #let kinds = (
@@ -77,12 +60,12 @@
 
 
 #let template = Template.with(
-    language: "fr", // If you want to change the language, (Only "fr" and "en" are supported)
-    title: "Rayan's Template",
+    language: "en", // If you want to change the language, (Only "fr" and "en" are supported)
+    title: "Ray's Template",
     ue: "UE", // Coruse Mnemonic
     subject: "Sujet", // Name of the subject/course
     authors: (
-      "Rayan Contuliano Bravo",
+      "Ray",
     ),
     teachers: (
         "M. Name",
@@ -170,6 +153,7 @@
     h(fil) // Different behaviour while indenting at start position of a line
 }
 
+// Use this funtion to create an unnumbered section #unnumbered[= Title] -> Level 1 heading unnumbered
 #let unnumbered(body) = {
   set heading(numbering: none)
   body
