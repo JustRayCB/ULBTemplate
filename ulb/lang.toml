@@ -1,6 +1,8 @@
+[conf]
 default-lang = "fr"
 
-[fr]
+[lang.fr]
+# Months
 January = "Janvier" 
 February = "Février" 
 March = "Mars" 
@@ -13,3 +15,24 @@ September = "Septembre"
 October = "Octobre" 
 November = "Novembre" 
 December = "Décembre" 
+
+Bibliography = "Bibliographie"
+
+[lang.en]
+# Months
+January = "January"
+February = "February"
+March = "March"
+April = "April"
+May = "May"
+June = "June"
+July = "July"
+August = "August"
+September = "September"
+October = "October"
+November = "November"
+December = "December"
+
+Bibliography = "Bibliography"
+
+

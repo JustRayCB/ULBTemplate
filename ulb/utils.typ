@@ -52,10 +52,10 @@
 * Config chic-hdr header and footer
 */
 #let configChicHdr(headerLeft: "logs/banner.png", headerRight: "", footerLeft: "UE", footerCenter: "Subject") = {
-  if type(headerLeft) == "string" {
+  if type(headerLeft) == str {
     headerLeft = place(dy: -145%, image(headerLeft, width: 70%))
   }
-  if type(headerRight) == "string" {
+  if type(headerRight) == str {
     headerRight = place(dx: 30%, dy: -145%, image(headerRight, width: 70%))
   }
   let config = (

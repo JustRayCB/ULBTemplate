@@ -1,28 +1,29 @@
-#import "@preview/chic-hdr:0.4.0" // Library for headers and footers
+#import "@preview/chic-hdr:0.5.0" // Library for headers and footers
 #import "@preview/outrageous:0.3.0" // Library for TOC formatting
-#import "@preview/linguify:0.3.1" // Library for language support
+#import "@preview/linguify:0.4.2" // Library for language support
 #import "@preview/i-figured:0.2.4"
 #import "@preview/equate:0.1.0": equate
 #import "utils.typ"
 
 #let Template(
-  Title: "Titre",
-  UE: "Unité d'enseignement",
-  Subject: "Sujet",
-  Authors: (),
-  Teachers: (),
-  Date: datetime.today().display("[day] [month repr:long] [year]"),
-  TOC: true,
-  FTOC: true,
-  Depth: 5,
-  First_line_indent: 20pt,
+  language: "fr",
+  title: "Titre",
+  ue: "Unité d'enseignement",
+  subject: "Sujet",
+  authors: (),
+  teachers: (),
+  date: datetime.today().display("[day] [month repr:long] [year]"),
+  toc: true,
+  fig_toc: true,
+  depth: 5,
+  first_line_indent: 20pt,
   kinds: (),
   extra-pref: (),
   body,
 ) = {
   // Set the document's basic properties.
   // ===========Cover page=============
-  set document(author: Authors, title: Title)
+  set document(author: authors, title: title)
   let banner = "logos/banner.png"
   let logo = "logos/logo_text.png"
   let sceau = "logos/sceau.png"
@@ -34,19 +35,19 @@
   align(left, image(logo, width: 70%))
 
   // Set body font family.
-  set text(font: body-font, lang: "en", 12pt)
+  set text(font: body-font, lang: language, 12pt)
 
   v(9fr)
 
   // ===========Date and Title=============
   let lang_data = toml("lang.toml")
-  linguify.linguify_set_database(lang_data)
-  let (day, month, year) = Date.split(" ")
-  //let month = linguify.linguify(month) // Translate the month to French
+  linguify.set-database(lang_data)
+  let (day, month, year) = date.split(" ")
+  let month = linguify.linguify(month) // Translate the month to French
   text(1.1em)[#day #month #year]
 
   v(1.2em, weak: true)
-  text(font: sans-font, 2em, weight: 700, Title)
+  text(font: sans-font, 2em, weight: 700, title)
   // ===========End Date and Title=============
 
 
@@ -61,7 +62,7 @@
         columns: 1,// (1fr,),  // * calc.min(3, authors.len()),
         gutter: 1.5em,
         text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Students:"),
-        ..Authors.map(author => align(start, smallcaps(author))),
+        ..authors.map(author => align(start, smallcaps(author))),
       ),
     ),
     pad(
@@ -71,7 +72,7 @@
         columns: 1, //(1fr,),  // * calc.min(3, authors.len()),
         gutter: 1.5em,
         text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Teachers:"),
-        ..Teachers.map(teacher => align(start, smallcaps(teacher))),
+        ..teachers.map(teacher => align(start, smallcaps(teacher))),
       ),
     ),
   )
@@ -96,12 +97,12 @@
     page-transform: none,
   )
 
-  if TOC {
+  if toc {
     set page(numbering: "I")
     counter(page).update(1)
-    outline(indent: auto, depth: Depth)
+    outline(indent: auto, depth: depth)
     pagebreak(weak: true)
-    if FTOC {
+    if fig_toc {
       /*
       * TOC of figures
       */
@@ -142,8 +143,8 @@
   let configChic = utils.configChicHdr(
     headerLeft: banner,
     headerRight: smallcaps(text(font: sans-font)[*#utils.placeCurrentSection(level: 1)*]),
-    footerLeft: UE,
-    footerCenter: Subject,
+    footerLeft: ue,
+    footerCenter: subject,
   )
   show: chic-hdr.chic.with(
     width: 100%,
@@ -177,13 +178,9 @@
       // The heading of chic is not displayed correctly
       block(it, below: below)
     } else {
-      below = 0.5em
+      below = 1em
       block(it, below: below, above: 1.5em)
     }
-    // FIX: Temporary fix for the first line indent problem
-    text()[#v(below, weak: true)]
-    text()[#h(0em)]
-    parbreak()
 
   }
   // =========== End Heading Formatting ==============
@@ -192,7 +189,7 @@
   // Main body.
   // The first line indent can create weird behaviour with the heading as the heading is treated as a paragraph
   // The default behaviour does not have this problem. But if you use another show method, you have to set the first-line-indent to 0pt in the heading
-  set par(justify: true, first-line-indent: First_line_indent)
+  set par(justify: true, first-line-indent: (amount: first_line_indent,all: true))
 
   show link: it => {
     if it.has("dest") and type(it.at("dest")) == label {

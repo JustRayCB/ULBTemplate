@@ -77,18 +77,18 @@
 
 
 #let template = Template.with(
-    Title: "Rayan's Template",
-    UE: "UE",
-    Subject: "Sujet",
-    Authors: (
+    title: "Rayan's Template",
+    ue: "UE",
+    subject: "Sujet",
+    authors: (
       "Rayan Contuliano Bravo",
     ),
-    Teachers: (
+    teachers: (
         "M. Name",
     ),
-    TOC: false,
-    FTOC: false,
-    First_line_indent: fil,
+    toc: false,
+    fig_toc: false,
+    first_line_indent: fil,
     kinds: kinds,
     extra-pref: extra-pref,
 )
