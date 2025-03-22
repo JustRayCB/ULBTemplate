@@ -66,7 +66,6 @@ You can make a reference to the boxes with `@def:name0` (wich is the label insid
 # Issues:
 
 - The captions of figures are not rendered inside a box.
-- The ref of a figure of a section is not well written e.g fig 3.1 is ref as Fig1.
 - Tables of figures not working anymore
 
 # TODO:
