@@ -21,7 +21,7 @@
 #import "@preview/i-figured:0.2.4"
 
 // https://typst.app/universe/package/linguify
-#import "@preview/linguify:0.3.1"
+#import "@preview/linguify:0.4.2"
 
 // https://typst.app/universe/package/octique
 // #octique-inline("accessibility-inset", color: green)
@@ -77,6 +77,7 @@
 
 
 #let template = Template.with(
+    language: "fr",
     title: "Rayan's Template",
     ue: "UE",
     subject: "Sujet",
@@ -95,51 +96,51 @@
 
 #let definition = popup.with(
   kind: "definition",
-  supplement: "Définition",
+  supplement: linguify.linguify("Definition"),
   color: colorKind.definition,
 )
 
 #let theorem = popup.with(
   kind: "theorem",
-  supplement: "Théorème",
+  supplement: linguify.linguify("Theorem"),
   color: colorKind.theorem,
 )
 
 #let proof = borderBox.with(
   kind: "proof",
-  supplement: "Démonstration",
+  supplement: linguify.linguify("Proof"),
   color: colorKind.proof,
   icon: octique("bookmark", color: colorKind.proof)
 )
 
 #let example = borderBox.with(
   kind: "example",
-  supplement: "Exemple",
+  supplement: linguify.linguify("Example"),
   color: colorKind.example,
   icon: octique("flame", color: colorKind.example)
 )
 
 #let proposition = popup.with(
   kind: "proposition",
-  supplement: "Proposition",
+  supplement: linguify.linguify("Proposition"),
   color: colorKind.proposition,
 ) 
 
 #let corollary = popup.with(
   kind: "corollary",
-  supplement: "Corollaire",
+  supplement: linguify.linguify("Corollary"),
   color: colorKind.corollary,
 ) 
 
 #let lemma = popup.with(
   kind: "lemma",
-  supplement: "Lemme",
+  supplement: linguify.linguify("Lemma"),
   color: colorKind.lemma,
 ) 
 
 #let remark = borderBox.with(
   kind: "remark",
-  supplement: "Remarque",
+  supplement: linguify.linguify("Remark"),
   color: colorKind.remark,
   icon: octique("light-bulb", color: colorKind.remark)
 
@@ -147,16 +148,15 @@
 
 #let notation = popup.with(
   kind: "notation",
-  supplement: "Notation",
+  supplement: linguify.linguify("Notation"),
   color: colorKind.notation,
 )
 
 #let warning = borderBox.with(
   kind: "warning",
-  supplement: "Attention",
+  supplement: linguify.linguify("Warning"),
   color: colorKind.warning,
   icon: octique("alert", color: colorKind.warning),
-  // outline: false,
 )
 
 // NoIndent function

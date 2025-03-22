@@ -18,6 +18,21 @@ December = "Décembre"
 
 Bibliography = "Bibliographie"
 
+Students = "Étudiants"
+Teachers = "Enseignants"
+
+# Boxes titles
+Definition = "Définition"
+Theorem = "Théorème"
+Proof = "Démonstration"
+Example = "Exemple"
+Proposition = "Proposition"
+Corollary = "Corollaire"
+Lemma = "Lemme"
+Remark = "Remarque"
+Notation = "Notation"
+Warning = "Attention"
+
 [lang.en]
 # Months
 January = "January"
@@ -35,4 +50,17 @@ December = "December"
 
 Bibliography = "Bibliography"
 
+Students = "Students"
+Teachers = "Teachers"
 
+# Boxes titles
+Definition = "Definition"
+Theorem = "Theorem"
+Proof = "Proof"
+Example = "Example"
+Proposition = "Proposition"
+Corollary = "Corollary"
+Lemma = "Lemma"
+Remark = "Remark"
+Notation = "Notation"
+Warning = "Warning"

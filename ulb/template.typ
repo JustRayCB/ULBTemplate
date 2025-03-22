@@ -6,7 +6,7 @@
 #import "utils.typ"
 
 #let Template(
-  language: "fr",
+  language: "en",
   title: "Titre",
   ue: "Unité d'enseignement",
   subject: "Sujet",
@@ -62,7 +62,7 @@
       grid(
         columns: 1,// (1fr,),  // * calc.min(3, authors.len()),
         gutter: 1.5em,
-        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Students:"),
+        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, linguify.linguify("Students")+":"),
         ..authors.map(author => align(start, smallcaps(author))),
       ),
     ),
@@ -72,7 +72,7 @@
       grid(
         columns: 1, //(1fr,),  // * calc.min(3, authors.len()),
         gutter: 1.5em,
-        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, "Teachers:"),
+        text(font: sans-font, style: "oblique", size: 1.2em, weight: 1000, linguify.linguify("Teachers") + ":"),
         ..teachers.map(teacher => align(start, smallcaps(teacher))),
       ),
     ),
