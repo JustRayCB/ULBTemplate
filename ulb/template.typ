@@ -23,6 +23,7 @@
 ) = {
   // Set the document's basic properties.
   // ===========Cover page=============
+  kinds = kinds + (figure, table, image)
   set document(author: authors, title: title)
   let banner = "logos/banner.png"
   let logo = "logos/logo_text.png"
