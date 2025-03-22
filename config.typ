@@ -77,10 +77,10 @@
 
 
 #let template = Template.with(
-    language: "fr",
+    language: "fr", // If you want to change the language, (Only "fr" and "en" are supported)
     title: "Rayan's Template",
-    ue: "UE",
-    subject: "Sujet",
+    ue: "UE", // Coruse Mnemonic
+    subject: "Sujet", // Name of the subject/course
     authors: (
       "Rayan Contuliano Bravo",
     ),
@@ -88,8 +88,8 @@
         "M. Name",
     ),
     toc: false,
-    fig_toc: false,
-    first_line_indent: fil,
+    fig_toc: false, // If you want to display the list of figures (doesn't work right now
+    first_line_indent: fil, // Indentation of the first line of a paragraph
     kinds: kinds,
     extra-pref: extra-pref,
 )
