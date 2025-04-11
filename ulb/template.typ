@@ -1,5 +1,5 @@
 #import "@preview/chic-hdr:0.5.0" // Library for headers and footers
-#import "@preview/outrageous:0.3.0" // Library for TOC formatting
+#import "@preview/outrageous:0.4.0" // Library for TOC formatting
 #import "@preview/linguify:0.4.2" // Library for language support
 #import "@preview/i-figured:0.2.4"
 #import "@preview/equate:0.1.0": equate
