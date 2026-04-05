@@ -1,49 +1,78 @@
-// Take a look at the file `template.typ` in the file panel
-// to customize this template and discover how it works.
 #import "ulb/template.typ": Template
-#import "ulb/boxs.typ": popup, borderBox
+#import "ulb/boxes.typ": popup, borderBox
 
 // https://typst.app/universe/package/linguify
 #import "@preview/linguify:0.4.2"
 
 // https://typst.app/universe/package/octique
-// #octique-inline("accessibility-inset", color: green)
-#import "@preview/octique:0.1.0": octique-inline, octique
+#import "@preview/octique:0.1.0": octique
 
 // https://typst.app/universe/package/codly
 #import "@preview/codly:1.2.0"
 
+#let language-data = toml("ulb/lang.toml")
+#linguify.set-database(language-data)
 
+// -----------------------------
+// Document
+// -----------------------------
+#let document-type = "summary" // "summary", "report", "project"
+#let language = "en"
+#let title = "Ray's Template"
+#let subtitle = "Course summary"
+#let authors = ("Ray",)
+#let date = datetime.today()
 
-#let fil = 20pt // First line indent
-#let margins = 2.5cm
-// TODO: remove extra-pref and use states instead of arrays only
-#let kinds = (
-  "definition", 
+// -----------------------------
+// Course information
+// -----------------------------
+#let course-code = "INFO-F530"
+#let course-name = "Advanced topics in machine learning"
+#let teachers = ("M. Name",)
+
+// -----------------------------
+// Structure
+// -----------------------------
+#let show-outline = false
+#let show-figure-outline = false
+#let pagebreak-before-level-1-headings = document-type == "summary"
+#let first-line-indent = 20pt
+
+// -----------------------------
+// Project-only fields
+// -----------------------------
+#let department = none
+#let organization = none
+#let organization-logo = none
+#let supervisors = ()
+#let summary-left = none
+#let summary-right = none
+#let show-back-cover = auto
+
+// -----------------------------
+// Advanced layout
+// -----------------------------
+#let cover-design = auto // auto, standard, highlighted, project, classic
+#let custom-header = auto
+#let custom-footer = auto
+
+// -----------------------------
+// Boxes
+// -----------------------------
+#let box-kinds = (
+  "definition",
   "theorem",
-  "proof", 
+  "proof",
   "example",
   "proposition",
   "corollary",
   "lemma",
   "remark",
   "notation",
+  "warning",
 )
 
-#let extra-pref = (
-  definition: "def:", 
-  theorem: "thm:", 
-  proof: "prf:", 
-  example: "ex:",
-  proposition: "prop:", 
-  corollary: "cor:",
-  lemma: "lem:", 
-  remark: "rem:", 
-  notation: "not:",
-  warning: "warn:",
-)
-
-#let colorKind = (
+#let box-colors = (
   definition: teal,
   theorem: blue,
   proof: color.eastern,
@@ -56,104 +85,105 @@
   warning: red,
 )
 
-
-
-
 #let template = Template.with(
-    language: "en", // If you want to change the language, (Only "fr" and "en" are supported)
-    title: "Ray's Template",
-    ue: "UE", // Coruse Mnemonic
-    subject: "Sujet", // Name of the subject/course
-    authors: (
-      "Ray",
-    ),
-    teachers: (
-        "M. Name",
-    ),
-    toc: false,
-    fig_toc: false, // If you want to display the list of figures (doesn't work right now
-    first_line_indent: fil, // Indentation of the first line of a paragraph
-    kinds: kinds,
-    extra-pref: extra-pref,
+  document-type: document-type,
+  language: language,
+  title: title,
+  subtitle: subtitle,
+  authors: authors,
+  date: date,
+  course-code: course-code,
+  course-name: course-name,
+  teachers: teachers,
+  show-outline: show-outline,
+  show-figure-outline: show-figure-outline,
+  pagebreak-before-level-1-headings: pagebreak-before-level-1-headings,
+  first-line-indent: first-line-indent,
+  department: department,
+  organization: organization,
+  organization-logo: organization-logo,
+  supervisors: supervisors,
+  summary-left: summary-left,
+  summary-right: summary-right,
+  show-back-cover: show-back-cover,
+  cover-design: cover-design,
+  custom-header: custom-header,
+  custom-footer: custom-footer,
+  kinds: box-kinds,
 )
 
 #let definition = popup.with(
   kind: "definition",
   supplement: linguify.linguify("Definition"),
-  color: colorKind.definition,
+  color: box-colors.definition,
 )
 
 #let theorem = popup.with(
   kind: "theorem",
   supplement: linguify.linguify("Theorem"),
-  color: colorKind.theorem,
+  color: box-colors.theorem,
 )
 
 #let proof = borderBox.with(
   kind: "proof",
   supplement: linguify.linguify("Proof"),
-  color: colorKind.proof,
-  icon: octique("bookmark", color: colorKind.proof)
+  color: box-colors.proof,
+  icon: octique("bookmark", color: box-colors.proof),
 )
 
 #let example = borderBox.with(
   kind: "example",
   supplement: linguify.linguify("Example"),
-  color: colorKind.example,
-  icon: octique("flame", color: colorKind.example)
+  color: box-colors.example,
+  icon: octique("flame", color: box-colors.example),
 )
 
 #let proposition = popup.with(
   kind: "proposition",
   supplement: linguify.linguify("Proposition"),
-  color: colorKind.proposition,
-) 
+  color: box-colors.proposition,
+)
 
 #let corollary = popup.with(
   kind: "corollary",
   supplement: linguify.linguify("Corollary"),
-  color: colorKind.corollary,
-) 
+  color: box-colors.corollary,
+)
 
 #let lemma = popup.with(
   kind: "lemma",
   supplement: linguify.linguify("Lemma"),
-  color: colorKind.lemma,
-) 
+  color: box-colors.lemma,
+)
 
 #let remark = borderBox.with(
   kind: "remark",
   supplement: linguify.linguify("Remark"),
-  color: colorKind.remark,
-  icon: octique("light-bulb", color: colorKind.remark)
-
+  color: box-colors.remark,
+  icon: octique("light-bulb", color: box-colors.remark),
 )
 
 #let notation = popup.with(
   kind: "notation",
   supplement: linguify.linguify("Notation"),
-  color: colorKind.notation,
+  color: box-colors.notation,
 )
 
 #let warning = borderBox.with(
   kind: "warning",
   supplement: linguify.linguify("Warning"),
-  color: colorKind.warning,
-  icon: octique("alert", color: colorKind.warning),
+  color: box-colors.warning,
+  icon: octique("alert", color: box-colors.warning),
 )
 
-// NoIndent function
-#let noindent() =  {
-    h(-fil)
-
+#let noindent() = {
+  h(-first-line-indent)
 }
 
-// Indent function
 #let indent() = {
-    h(fil) // Different behaviour while indenting at start position of a line
+  h(first-line-indent)
 }
 
-// Use this funtion to create an unnumbered section #unnumbered[= Title] -> Level 1 heading unnumbered
 #let unnumbered(body) = {
   set heading(numbering: none)
   body

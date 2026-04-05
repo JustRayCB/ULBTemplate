@@ -18,8 +18,11 @@ December = "Décembre"
 
 Bibliography = "Bibliographie"
 
+Authors = "Auteurs"
 Students = "Étudiants"
 Teachers = "Enseignants"
+Organization = "Organisation"
+Supervisors = "Encadrants"
 
 # Boxes titles
 Definition = "Définition"
@@ -50,8 +53,11 @@ December = "December"
 
 Bibliography = "Bibliography"
 
+Authors = "Authors"
 Students = "Students"
 Teachers = "Teachers"
+Organization = "Organization"
+Supervisors = "Supervisors"
 
 # Boxes titles
 Definition = "Definition"
