@@ -492,43 +492,74 @@
     course-name: course-name,
   )
 
-  place(
-    right + bottom,
-    dx: page.margin.at("right") - 0.6cm,
-    dy: -0.6cm,
-    box(width: 2.34cm, height: 2.34cm, image("assets/footer-badge.png")),
-  )
-
-  if ulb-page-counter-visible.get() {
+  if custom-footer == "formatted" or custom-footer == auto {
     place(
       right + bottom,
       dx: page.margin.at("right") - 0.6cm,
       dy: -0.6cm,
-      box(
-        width: 1.15cm,
-        height: 1.15cm,
-        align(
-          center + horizon,
-          text(
-            fill: white,
-            size: 14pt,
-            font: ulb-heading-fonts,
-            weight: "bold",
-            counter(page).display(ulb-page-counter-format.get()),
+      box(width: 2.34cm, height: 2.34cm, image("assets/footer-badge.png")),
+    )
+
+    if ulb-page-counter-visible.get() {
+      place(
+        right + bottom,
+        dx: page.margin.at("right") - 0.6cm,
+        dy: -0.6cm,
+        box(
+          width: 1.15cm,
+          height: 1.15cm,
+          align(
+            center + horizon,
+            text(
+              fill: white,
+              size: 14pt,
+              font: ulb-heading-fonts,
+              weight: "bold",
+              counter(page).display(ulb-page-counter-format.get()),
+            ),
           ),
         ),
-      ),
+      )
+    }
+
+    if footer-label != none {
+      [
+        #set par(justify: false, first-line-indent: 0pt)
+        #set text(font: ulb-heading-fonts, size: 9pt, fill: luma(120), weight: "semibold")
+        #footer-label
+      ]
+    }
+  } else if custom-footer == "regular" {
+    if ulb-page-counter-visible.get() {
+      align(
+        center,
+        text(
+          font: ulb-heading-fonts,
+          size: 10pt,
+          counter(page).display(ulb-page-counter-format.get()),
+        ),
+      )
+    }
+  } else if custom-footer == "classic" {
+    let left-part = if footer-label != none {
+      set par(justify: false, first-line-indent: 0pt)
+      set text(font: ulb-heading-fonts, size: 9pt, fill: luma(120), weight: "semibold")
+      footer-label
+    }
+    let right-part = if ulb-page-counter-visible.get() {
+      text(
+        font: ulb-heading-fonts,
+        size: 10pt,
+        fill: luma(120),
+        counter(page).display(ulb-page-counter-format.get()),
+      )
+    }
+    grid(
+      columns: (1fr, 1fr),
+      align(left + horizon, left-part),
+      align(right + horizon, right-part),
     )
-  }
-
-  if custom-footer == auto and footer-label != none {
-    [
-
-      #set par(justify: false, first-line-indent: 0pt)
-      #set text(font: ulb-heading-fonts, size: 9pt, fill: luma(120), weight: "semibold")
-      #footer-label
-    ]
-  } else if custom-footer != auto and custom-footer != none and custom-footer != [] {
+  } else if custom-footer != none and custom-footer != [] {
     custom-footer
   }
 }

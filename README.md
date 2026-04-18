@@ -448,7 +448,14 @@ Old names to new names:
 - `toc` -> `show-outline`
 - `fig_toc` -> `show-figure-outline`
 
+> Note that the table of figures will include every boxes that has a title
+
 The box call style was intentionally kept simple.
+
+IF YOU WANT THE OLD STYLE BACK YOU CAN SET: 
+
+- `cover-design` = "classic"
+- `custom-footer` = "classic" 
 
 ## Notes
 

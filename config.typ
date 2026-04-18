@@ -54,7 +54,7 @@
 // -----------------------------
 #let cover-design = auto // auto, standard, highlighted, project, classic
 #let custom-header = auto
-#let custom-footer = auto
+#let custom-footer = auto // auto, formatted, regular, classic, or custom content
 
 // -----------------------------
 // Boxes
