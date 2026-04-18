@@ -459,5 +459,4 @@ IF YOU WANT THE OLD STYLE BACK YOU CAN SET:
 
 ## Notes
 
-- `ulb-report/` is kept in the repository as reference material, but the main template does not depend on it at runtime.
 - Remaining Typst warnings currently come from upstream packages such as `codly` and `octique`, not from the main template code.
