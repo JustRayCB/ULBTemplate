@@ -230,8 +230,8 @@
 
   if cover-design == "highlighted" {
     place(
-      dx: 2.5cm,
-      dy: 7.5cm,
+      dx: 2.2cm,
+      dy: 6.5cm,
       block(
         width: 9.5cm,
         text(fill: white)[
@@ -248,7 +248,7 @@
     )
   } else if cover-design == "project" {
     place(
-      dx: 2.5cm,
+      dx: 2.2cm,
       dy: 6.5cm,
       block(
         width: 9.5cm,
@@ -262,8 +262,8 @@
     )
 
     place(
-      dx: 2.5cm,
-      dy: 13.7cm,
+      dx: 2.2cm,
+      dy: 11.7cm,
       block(
         width: 9.5cm,
         height: 14cm,
@@ -292,7 +292,7 @@
     )
   } else {
     place(
-      dx: 2.5cm,
+      dx: 2.2cm,
       dy: 6.5cm,
       block(
         width: 9.5cm,
@@ -306,7 +306,7 @@
     )
 
     place(
-      dx: 2.5cm,
+      dx: 2.2cm,
       dy: 13.7cm,
       block(
         width: 6.5cm,
