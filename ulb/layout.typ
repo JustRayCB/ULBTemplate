@@ -8,8 +8,8 @@
   tertiary: white,
 )
 
-#let ulb-heading-fonts = ("Inria Sans", "Liberation Sans")
-#let ulb-body-fonts = ("Libertinus Serif", "Liberation Serif")
+#let ulb-heading-fonts = ("Source Sans 3", "Liberation Sans")
+#let ulb-body-fonts = ("TeX Gyre Pagella", "Palatino", "Libertinus Serif")
 
 #let ulb-page-counter-visible = state("ulb-page-counter-visible", false)
 #let ulb-page-counter-format = state("ulb-page-counter-format", "1")
@@ -50,9 +50,9 @@
   date
 }
 
-#let short-document-name(title, course-code: none, course-name: none) = {
+#let short-document-name(title, subtitle, course-code: none, course-name: none) = {
   if utils.has-content(course-code) {
-    return [#course-code #sym.hyph #title]
+    return [#course-code #sym.hyph #subtitle]
   }
   if utils.has-content(course-name) and course-name != title {
     return [#course-name #sym.hyph #title]
@@ -402,7 +402,7 @@
 #let ulb-header-height = 2.5cm
 #let ulb-header-offset = 20pt
 
-#let default-header(document-type, title, course-code: none, course-name: none) = {
+#let default-header(document-type, title, subtitle: none, course-code: none, course-name: none) = {
   if document-type == "summary" {
     return (
       left: image("assets/banner.png", width: ulb-header-logo-size),
@@ -411,7 +411,7 @@
   }
 
   (
-    left: smallcaps(short-document-name(title, course-code: course-code, course-name: course-name)),
+    left: smallcaps(short-document-name(title, subtitle, course-code: course-code, course-name: course-name)),
     right: text(weight: "bold")[#running-section()],
   )
 }
@@ -429,6 +429,7 @@
 #let page-shell(
   document-type,
   title,
+  subtitle: none,
   course-code: none,
   course-name: none,
   custom-header: auto,
@@ -460,6 +461,7 @@
   let header = default-header(
     document-type,
     title,
+    subtitle: subtitle,
     course-code: course-code,
     course-name: course-name,
   )

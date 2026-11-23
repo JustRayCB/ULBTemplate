@@ -1,4 +1,4 @@
-#import "@preview/outrageous:0.4.0"
+#import "@preview/outrageous:0.4.1"
 #import "layout.typ"
 
 #let Template(
@@ -200,6 +200,7 @@
 
     set list(indent: 10pt)
     set enum(indent: 10pt)
+    show terms: set terms(separator: [#strong[:]#h(0.6em, weak: true)])
 
     show raw.where(block: false): box.with(
       fill: luma(240),
@@ -208,11 +209,11 @@
       radius: 2pt,
     )
 
-    show raw.where(block: true): block.with(
-      fill: luma(240),
-      inset: 10pt,
-      radius: 4pt,
-    )
+    // show raw.where(block: true): block.with(
+    //   fill: luma(240),
+    //   inset: 10pt,
+    //   radius: 4pt,
+    // )
 
     body
 
@@ -228,6 +229,7 @@
   layout.page-shell(
     document-type,
     title,
+    subtitle: subtitle,
     course-code: course-code,
     course-name: course-name,
     custom-header: custom-header,
